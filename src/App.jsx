@@ -73,6 +73,27 @@ const MonogramL = ({ size = 180, color = COLORS.dourado, letter = "L", showDots 
 const RicoPhoto = ({ size = 180, photoUrl = null }) => {
   const inner = size * 0.88;
   const offset = size * 0.06;
+  const [artigoAberto, setArtigoAberto] = useState(null);
+
+  if (artigoAberto) {
+    return (
+      <div className="cl-site sec-light" style={{ paddingTop: 80 }}>
+        <div style={{ maxWidth: 720, margin: "0 auto", padding: "60px 60px" }}>
+          <button onClick={() => setArtigoAberto(null)} style={{ fontFamily: "'Lora', serif", fontSize: 13, color: COLORS.caramelo, background: "none", border: "none", cursor: "pointer", marginBottom: 40, opacity: 0.7 }}>← Voltar para a Cartilha</button>
+          <div style={{ fontFamily: "'Lora', serif", fontSize: 11, letterSpacing: "0.15em", color: COLORS.dourado, marginBottom: 24 }}>{niveis[ativo].toUpperCase()} · {artigoAberto.tempo} de leitura</div>
+          <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(32px,5vw,52px)", color: COLORS.torra, marginBottom: 16, lineHeight: 1.2 }}>{artigoAberto.titulo}</h1>
+          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: 18, color: COLORS.caramelo, marginBottom: 48, lineHeight: 1.6 }}>{artigoAberto.desc}</p>
+          <div style={{ height: "0.5px", background: COLORS.dourado, opacity: 0.3, marginBottom: 48 }}/>
+          {artigoAberto.conteudo.split("\n\n").map((p, i) => (
+            <p key={i} style={{ fontFamily: "'Lora', serif", fontSize: 16, lineHeight: 1.95, color: COLORS.torra, opacity: 0.8, marginBottom: 28 }}>{p}</p>
+          ))}
+          <div style={{ height: "0.5px", background: COLORS.dourado, opacity: 0.3, margin: "48px 0 32px" }}/>
+          <button onClick={() => setArtigoAberto(null)} style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: 16, color: COLORS.caramelo, background: "none", border: "none", cursor: "pointer", borderBottom: "0.5px solid " + COLORS.caramelo }}>← Voltar para a Cartilha</button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div style={{ width: size, height: size, margin: "0 auto", position: "relative" }}>
       <svg width={size} height={size} viewBox="0 0 200 200" fill="none" style={{ position: "absolute", top: 0, left: 0 }}>
@@ -93,7 +114,66 @@ const RicoPhoto = ({ size = 180, photoUrl = null }) => {
   );
 };
 
-const RicoPortrait = ({ size = 160 }) => <RicoPhoto size={size}/>;
+const RicoPortrait = ({ size = 160 }) => {
+  const s = size / 200;
+  return (
+    <div style={{ width: size, height: size, margin: "0 auto", position: "relative" }}>
+      <svg width={size} height={size} viewBox="0 0 200 200" fill="none">
+        <circle cx="100" cy="100" r="96" stroke={COLORS.latao} strokeWidth="1.8"/>
+        <circle cx="100" cy="100" r="88" stroke={COLORS.latao} strokeWidth="0.5" opacity="0.5"/>
+        {/* cabelo */}
+        <path d="M38 85 Q40 50 65 35 Q85 22 100 20 Q115 22 135 35 Q160 50 162 85" fill="#C8C0B8" opacity="0.6"/>
+        <path d="M38 85 Q42 55 66 38 Q86 25 100 23" fill="none" stroke={COLORS.latao} strokeWidth="0.6" opacity="0.5"/>
+        <path d="M162 85 Q158 55 134 38 Q114 25 100 23" fill="none" stroke={COLORS.latao} strokeWidth="0.6" opacity="0.5"/>
+        {/* rosto */}
+        <ellipse cx="100" cy="110" rx="54" ry="65" fill="#D8C8B0" opacity="0.5"/>
+        <ellipse cx="100" cy="110" rx="54" ry="65" fill="none" stroke={COLORS.latao} strokeWidth="0.8" opacity="0.6"/>
+        {/* sobrancelhas */}
+        <path d="M68 82 Q78 76 88 80" fill="none" stroke={COLORS.latao} strokeWidth="2" strokeLinecap="round" opacity="0.8"/>
+        <path d="M112 80 Q122 76 132 82" fill="none" stroke={COLORS.latao} strokeWidth="2" strokeLinecap="round" opacity="0.8"/>
+        {/* óculos esquerdo */}
+        <rect x="64" y="86" width="32" height="20" rx="8" fill="none" stroke={COLORS.latao} strokeWidth="1.8" opacity="0.9"/>
+        {/* óculos direito */}
+        <rect x="104" y="86" width="32" height="20" rx="8" fill="none" stroke={COLORS.latao} strokeWidth="1.8" opacity="0.9"/>
+        {/* ponte */}
+        <path d="M96 96 Q100 93 104 96" fill="none" stroke={COLORS.latao} strokeWidth="1.4" opacity="0.9"/>
+        {/* hastes */}
+        <path d="M64 96 Q55 93 48 90" fill="none" stroke={COLORS.latao} strokeWidth="1.2" opacity="0.8"/>
+        <path d="M136 96 Q145 93 152 90" fill="none" stroke={COLORS.latao} strokeWidth="1.2" opacity="0.8"/>
+        {/* olhos */}
+        <circle cx="80" cy="96" r="5" fill={COLORS.latao} opacity="0.3"/>
+        <circle cx="120" cy="96" r="5" fill={COLORS.latao} opacity="0.3"/>
+        <circle cx="83" cy="93" r="2" fill="white" opacity="0.5"/>
+        <circle cx="123" cy="93" r="2" fill="white" opacity="0.5"/>
+        {/* nariz */}
+        <path d="M95 106 Q90 118 88 124 Q94 128 100 127 Q106 128 112 124 Q110 118 105 106" fill="none" stroke={COLORS.latao} strokeWidth="0.7" opacity="0.55"/>
+        {/* sorriso largo */}
+        <path d="M78 138 Q100 154 122 138" fill="none" stroke={COLORS.latao} strokeWidth="1.6" opacity="0.85" strokeLinecap="round"/>
+        <path d="M78 138 Q72 128 76 120" fill="none" stroke={COLORS.latao} strokeWidth="0.8" opacity="0.5"/>
+        <path d="M122 138 Q128 128 124 120" fill="none" stroke={COLORS.latao} strokeWidth="0.8" opacity="0.5"/>
+        {/* dentes */}
+        <path d="M82 138 Q100 150 118 138 Q100 136 82 138 Z" fill="white" opacity="0.7"/>
+        {/* barba esquerda */}
+        <path d="M46 118 Q44 135 48 152 Q56 168 70 175 Q84 181 100 182" fill="none" stroke={COLORS.latao} strokeWidth="0.9" opacity="0.55"/>
+        <path d="M50 118 Q48 134 52 150 Q60 166 74 173" fill="none" stroke={COLORS.latao} strokeWidth="0.6" opacity="0.4"/>
+        <path d="M56 116 Q54 132 58 148 Q66 164 78 171" fill="none" stroke={COLORS.latao} strokeWidth="0.5" opacity="0.35"/>
+        {/* barba direita */}
+        <path d="M154 118 Q156 135 152 152 Q144 168 130 175 Q116 181 100 182" fill="none" stroke={COLORS.latao} strokeWidth="0.9" opacity="0.55"/>
+        <path d="M150 118 Q152 134 148 150 Q140 166 126 173" fill="none" stroke={COLORS.latao} strokeWidth="0.6" opacity="0.4"/>
+        <path d="M144 116 Q146 132 142 148 Q134 164 122 171" fill="none" stroke={COLORS.latao} strokeWidth="0.5" opacity="0.35"/>
+        {/* bigode */}
+        <path d="M82 132 Q91 128 100 130 Q109 128 118 132" fill="none" stroke={COLORS.latao} strokeWidth="1.2" opacity="0.65" strokeLinecap="round"/>
+        {/* orelhas */}
+        <path d="M46 95 Q40 108 44 122 Q48 132 56 134 Q58 120 58 108 Z" fill="none" stroke={COLORS.latao} strokeWidth="0.8" opacity="0.55"/>
+        <path d="M154 95 Q160 108 156 122 Q152 132 144 134 Q142 120 142 108 Z" fill="none" stroke={COLORS.latao} strokeWidth="0.8" opacity="0.55"/>
+        {/* pescoço */}
+        <path d="M82 174 Q90 182 100 184 Q110 182 118 174 L115 190 Q100 196 85 190 Z" fill="none" stroke={COLORS.latao} strokeWidth="0.8" opacity="0.5"/>
+        {/* nome */}
+        <text x="100" y="197" textAnchor="middle" fontFamily="Cormorant Garamond, serif" fontSize="8" fill={COLORS.latao} letterSpacing="2" opacity="0.7" fontStyle="italic">RICO</text>
+      </svg>
+    </div>
+  );
+};
 
 const SacoBlend = ({ blend, gram, moagem, isReserva = false, loteNome = "", loteNotas = "" }) => {
   const w = gram === "250g" ? 160 : 192;
@@ -402,7 +482,7 @@ function Manifesto({ nav }) {
 
 function Historia({ nav }) {
   const pessoas = [
-    { gen: "A primeira geração", nome: 'Menahem "Rico" Levy', anos: "anos 1930 — 2024", texto: "Nasceu no Egito, em uma Alexandria cosmopolita onde o café árabe era moeda de hospitalidade. Quando os judeus foram expulsos, perdeu casa, língua e referências — mas trouxe na memória a forma de fazer café. Estudou na França. Escolheu o Brasil como pátria. Foi exportador, operador de mercado, pioneiro do espresso italiano em bares e restaurantes brasileiros. Foi chamado de Rico a vida inteira — porque era rico de história, de afeto, de paladar." },
+    { gen: "A primeira geração", nome: 'Menahem "Rico" Levy', anos: "1939 — 2024", texto: "Nasceu no Egito, em uma Alexandria cosmopolita onde o café árabe era moeda de hospitalidade. Quando os judeus foram expulsos, perdeu casa, língua e referências — mas trouxe na memória a forma de fazer café. Estudou na França. Escolheu o Brasil como pátria. Foi exportador, operador de mercado, pioneiro do espresso italiano em bares e restaurantes brasileiros. Foi chamado de Rico a vida inteira — porque era rico de história, de afeto, de paladar." },
     { gen: "A segunda geração", nome: "Renato Levy", anos: "", texto: "Aprendeu o ofício observando o pai. É o coração e a cara da Casa Levy. Quem decide os blends. Quem garante que cada saca que entra na torrefação saia com a assinatura da casa. A continuidade do que o Rico começou — agora com método, escala e a vontade de fazer o melhor café possível." },
     { gen: "A terceira geração", nome: "Paulo Chut", anos: "", texto: "Sobrinho-neto e apaixonado confesso por café — o tipo que toma xícaras sem parar e ainda acha que a próxima vai ser a melhor. Para Paulo, trabalhar com café não é uma escolha racional. É a única forma que faz sentido de honrar o avô Rico e transformar obsessão em algo real. Cuida da marca, da narrativa, e de garantir que cada caixa carregue não só café, mas o ritual que o Rico ensinou." },
   ];
@@ -455,7 +535,7 @@ function Blends({ nav }) {
             <FadeIn key={i}>
               <div className="blend-card" onClick={() => nav(b.id)}>
                 <div style={{ display: "flex", justifyContent: "center", marginBottom: 32 }}>
-                  <CoffeePackSVG accentColor={b.accent}/>
+                  <SacoBlend blend={{ nome: b.nome, torra: b.torra.toUpperCase(), uso: b.id === "blend-original" ? "Para espresso e\ncafeteira italiana" : b.id === "blend-equilibrio" ? "Versátil para\nqualquer método" : "Para métodos\nmanuais", notas: b.notas, accent: b.accent }} gram="250g" moagem=""/>
                 </div>
                 <div style={{ width: 40, height: 0.5, background: b.accent, marginBottom: 20, opacity: 0.6 }}/>
                 <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 12, letterSpacing: "0.2em", color: b.accent, marginBottom: 8 }}>{b.torra.toUpperCase()}</div>
@@ -638,7 +718,7 @@ function Footer({ nav, openModal }) {
         </div>
         <div style={{ height: 0.5, background: COLORS.dourado, opacity: 0.3, marginBottom: 32 }}/>
         <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
-          <p style={{ fontFamily: "'Lora', serif", fontSize: 12, color: COLORS.creme, opacity: 0.4 }}>© 2026 Casa Levy · Em memória de Menahem (Rico) Levy</p>
+          <p style={{ fontFamily: "'Lora', serif", fontSize: 12, color: COLORS.creme, opacity: 0.4 }}>© 2026 Casa Levy · Em memória de Menahem (Rico) Levy · 1939 — 2024</p>
           <div style={{ display: "flex", gap: 24 }}>
             {["Política de privacidade","Termos","Instagram"].map((l, i) => (
               <span key={i} style={{ fontFamily: "'Lora', serif", fontSize: 12, color: COLORS.creme, opacity: 0.4 }}>{l}</span>
@@ -817,11 +897,12 @@ function PageCasa({ nav }) {
         <div style={{ borderLeft: "2px solid " + COLORS.dourado, paddingLeft: 32, margin: "48px 0" }}>
           <div style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: 22, color: COLORS.caramelo }}>"O Rico não bebia café. Ele recebia as pessoas com café. Era diferente."</div>
           <div style={{ fontFamily: "'Lora', serif", fontSize: 13, color: COLORS.caramelo, opacity: 0.6, marginTop: 12 }}>— Paulo Chut</div>
+
         </div>
         <p style={{ fontFamily: "'Lora', serif", fontSize: 17, lineHeight: 1.95, color: COLORS.torra, opacity: 0.75, marginBottom: 32 }}>Com a perseguição aos judeus no Egito, Menahem perde tudo — a casa, a língua cotidiana, a segurança de um lugar chamado seu. Passa pela França. Chega ao Brasil com as referências que nenhum exílio consegue tirar: o paladar, a hospitalidade, e a convicção de que café é gesto de presença.</p>
         <p style={{ fontFamily: "'Lora', serif", fontSize: 17, lineHeight: 1.95, color: COLORS.torra, opacity: 0.75, marginBottom: 32 }}>No Brasil, Rico vira exportador de café. Operador do mercado. Pioneiro em trazer o espresso italiano para bares e restaurantes brasileiros. Monta torrefação. Constrói uma carreira inteira ao redor do café sem nunca ter deixado de bebê-lo como quem recebe visita.</p>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 24, margin: "64px 0", textAlign: "center" }}>
-          {[["anos 1930","Nasce em Alexandria"],["anos 1950","Chega ao Brasil"],["anos 1980","Pioneiro do espresso"],["2026","Casa Levy"]].map(([ano, desc], i) => (
+          {[["1939","Nasce em Alexandria"],["anos 1950","Chega ao Brasil"],["anos 1980","Pioneiro do espresso"],["2026","Casa Levy"]].map(([ano, desc], i) => (
             <div key={i}>
               <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 18, color: COLORS.dourado, marginBottom: 8 }}>{ano}</div>
               <div style={{ width: "100%", height: "0.5px", background: COLORS.dourado, opacity: 0.3, marginBottom: 12 }}/>
@@ -839,9 +920,160 @@ function PageCartilha({ nav }) {
   const niveis = ["Está começando","Já entendeu","Quer ir fundo"];
   const [ativo, setAtivo] = useState(0);
   const artigos = [
-    [{ titulo: "O que é café especial?", desc: "A diferença entre o que você toma e o que você poderia tomar", tempo: "4 min" },{ titulo: "A diferença entre torras", desc: "Por que o mesmo grão é outro café conforme a torra", tempo: "5 min" },{ titulo: "Como fazer um coado decente", desc: "Com o que você já tem em casa", tempo: "3 min" }],
-    [{ titulo: "Espresso ou coado: qual é seu?", desc: "Um guia honesto para descobrir seu método", tempo: "6 min" },{ titulo: "Moagem: o fator que mais importa", desc: "Por que o moedor importa mais que a máquina", tempo: "7 min" },{ titulo: "Como o Renato faz o coado de manhã", desc: "A receita da casa, com notas de cada etapa", tempo: "4 min" }],
-    [{ titulo: "Processamentos: natural, lavado e honey", desc: "Como o processamento na fazenda cria sabores diferentes", tempo: "8 min" },{ titulo: "Extraindo um espresso perfeito", desc: "Os parâmetros que você precisa entender", tempo: "10 min" },{ titulo: "Era do Rico essa mania de cardamomo no café", desc: "A herança egípcia e o que ela tem a ensinar", tempo: "5 min" }],
+    [
+      {
+        titulo: "O que é café especial?",
+        desc: "A diferença entre o que você toma e o que você poderia tomar",
+        tempo: "4 min",
+        conteudo: `Café especial é uma classificação técnica, não um rótulo de marketing. Para receber essa denominação, um café precisa atingir no mínimo 80 pontos em uma escala de 100 definida pela Specialty Coffee Association (SCA). A avaliação é feita por profissionais certificados chamados Q-graders, que analisam atributos como aroma, acidez, corpo, doçura, equilíbrio e ausência de defeitos.
+
+O que diferencia um café especial do café comum começa antes da torra, na fazenda. Grãos especiais são colhidos seletivamente, no ponto exato de maturação. Isso exige mais trabalho e resulta em menor volume, mas o impacto na xícara é significativo.
+
+Cafés comuns são, em geral, blends de grãos de múltiplas origens e safras, torrados escuro para uniformizar o sabor e mascarar defeitos. Cafés especiais preservam as características do terroir, da altitude, da variedade botânica e do processamento. O resultado é um café com identidade.
+
+Na Casa Levy, todos os blends são compostos exclusivamente por grãos com pontuação acima de 80 pontos. A Reserva Rico vai além, com microlotes que alcançam pontuações acima de 85.`
+      },
+      {
+        titulo: "A diferença entre torras",
+        desc: "Por que o mesmo grão é outro café conforme a torra",
+        tempo: "5 min",
+        conteudo: `A torra é uma das etapas mais decisivas na cadeia do café. É ela que transforma os compostos químicos do grão verde em aroma, sabor e corpo. O mesmo grão, submetido a torras diferentes, produz bebidas completamente distintas.
+
+Durante o processo, o grão passa por reações de Maillard e caramelização, desenvolvendo centenas de compostos aromáticos. A temperatura e o tempo de torra determinam quais compostos são preservados e quais são transformados ou eliminados.
+
+Torra clara, que é a utilizada no Casa Horizonte, é interrompida antes ou logo após o primeiro crack, entre 196°C e 205°C. Preserva mais acidez, florais e frutas, refletindo com fidelidade as características de origem do grão. É a preferida para métodos de coado manual, onde a água tem contato prolongado com o café.
+
+Torra média, usada no Casa Equilíbrio, equilibra acidez e doçura. Os açúcares estão mais desenvolvidos, o corpo é mais presente e o perfil aromático é mais redondo. Funciona bem em espresso e em coado.
+
+Torra escura, presente no Casa Original, leva o grão além do segundo crack, acima de 225°C. A acidez cede espaço ao amargor controlado, ao corpo denso e ao caramelo. É a torra clássica do espresso italiano e da cafeteira moka.
+
+Não existe torra melhor ou pior. Existe torra adequada ao método e ao paladar de cada pessoa.`
+      },
+      {
+        titulo: "Como fazer um coado decente",
+        desc: "Com o que você já tem em casa",
+        tempo: "3 min",
+        conteudo: `Você não precisa de equipamento especial para fazer um coado bom. Precisa de três coisas: café fresco, água quente na temperatura certa e atenção ao processo.
+
+Temperatura da água: o ideal é entre 90°C e 96°C. Água fervendo demais superextrai o café e traz amargor. Se não tiver termômetro, ferva a água e aguarde 30 segundos antes de usar.
+
+Proporção: uma boa referência é 1 grama de café para cada 15 ml de água. Para uma xícara de 200 ml, use cerca de 13 gramas de café.
+
+Moagem: para coado, a moagem deve ser média, parecida com areia grossa. Moagem muito fina entope o filtro e deixa o café amargo. Muito grossa e o café fica aguado.
+
+O processo: umedeça o filtro com água quente antes de colocar o café. Isso elimina o gosto de papel e aquece o recipiente. Despeje a primeira quantidade de água, o suficiente para umedecer todo o pó, e aguarde 30 segundos. Esse é o bloom, etapa em que os gases liberados pelo café fresco escapam. Depois, despeje o restante da água em movimentos circulares lentos e constantes.
+
+Tempo total de extração: entre 3 e 4 minutos. Abaixo disso, o café está subextraído e ácido. Acima, pode ficar amargo.`
+      }
+    ],
+    [
+      {
+        titulo: "Espresso ou coado: qual é seu?",
+        desc: "Um guia honesto para descobrir seu método",
+        tempo: "6 min",
+        conteudo: `A escolha entre espresso e coado não é questão de gosto apenas. Envolve estilo de vida, equipamento disponível e o que você espera da bebida.
+
+O espresso é uma extração sob pressão, entre 8 e 10 bar, em 25 a 30 segundos, com dose de 18 a 20 gramas de café para um resultado de 36 a 40 ml. O resultado é concentrado, com crema, corpo denso e intensidade elevada. É a base do cappuccino, do flat white e de qualquer bebida com leite.
+
+Para fazer espresso em casa com qualidade, você precisa de uma máquina com bomba de pressão adequada e, idealmente, de um moedor capaz de ajuste fino de moagem. Sem o moedor certo, mesmo a melhor máquina produz resultados inconsistentes.
+
+O coado, em qualquer de suas variações como V60, Chemex, Hario ou coador de pano, é uma extração por percolação. A água passa pelo café por gravidade, sem pressão. O resultado é uma bebida mais clara, com acidez mais evidente, florais e complexidade aromática. É o método que melhor expressa as características de origem de um café especial.
+
+Para o coado, o investimento é menor. Um coador de cerâmica, filtros e uma chaleira de bico fino já são suficientes para resultados consistentes.
+
+Se você aprecia a intensidade e bebe o café puro ou com leite, o espresso é seu método. Se você gosta de explorar nuances, aroma e tem paciência para o processo, o coado vai surpreender.`
+      },
+      {
+        titulo: "Moagem: o fator que mais importa",
+        desc: "Por que o moedor importa mais que a máquina",
+        tempo: "7 min",
+        conteudo: `No mundo do café, há um consenso entre profissionais: o moedor é o equipamento mais importante da sua bancada. Mais do que a máquina de espresso, mais do que o método de coado.
+
+O motivo é técnico. A extração do café depende da superfície de contato entre o pó e a água. Grãos moídos de forma irregular, com partículas de tamanhos diferentes, extraem de forma desigual. As partículas menores superextraem e trazem amargor. As partículas maiores subextraem e trazem acidez indesejada. O resultado é um café desequilibrado, independentemente da qualidade do grão ou do método usado.
+
+Um bom moedor produz partículas uniformes. Isso garante que toda a superfície do café extraia no mesmo ritmo, resultando em equilíbrio e clareza na xícara.
+
+Moedores de disco cônico são superiores aos de lâmina, que funcionam como liquidificadores e trituram o café de forma aleatória. Moedores de disco plano são os preferidos para espresso, por produzirem distribuição mais uniforme em moagens finas.
+
+Para coado, um moedor manual cônico de qualidade já entrega resultados excelentes e custa a partir de R$ 200. Para espresso, o investimento precisa ser maior, pois a moagem fina exige precisão e consistência.
+
+Se você usa café pré-moído, saiba que o processo de oxidação começa imediatamente após a moagem. Em 15 minutos, parte dos compostos aromáticos já se dissipou. Moer na hora é a diferença entre um café vivo e um café plano.`
+      },
+      {
+        titulo: "Como o Renato faz o coado de manhã",
+        desc: "A receita da casa, com notas de cada etapa",
+        tempo: "4 min",
+        conteudo: `Renato torra café toda semana e bebe café todo dia. A receita que ele usa de manhã não é sofisticada. É consistente.
+
+Equipamento: coador de cerâmica V60, filtro de papel branqueado, chaleira de bico fino, balança e termômetro.
+
+Café: Casa Equilíbrio, moído na hora em moagem média. 15 gramas para 225 ml de água.
+
+Temperatura da água: 93°C. Renato ferve a água e aguarda 45 segundos antes de usar.
+
+Processo:
+
+Primeira etapa é umedecer o filtro com água quente e descartar. Isso elimina o resíduo de papel e aquece o coador.
+
+Segunda etapa é o bloom. Renato despeja 30 ml de água sobre o café em movimento circular e aguarda 35 segundos. O café fresco libera CO2 nesse momento. Se não houver borbulhamento visível, o café não é tão fresco quanto deveria ser.
+
+Terceira etapa é a extração principal. Ele despeja o restante da água em duas etapas, em movimentos circulares lentos do centro para as bordas, evitando a parede do filtro. O fluxo é constante e controlado.
+
+Tempo total: 3 minutos e 20 segundos do início ao fim da extração.
+
+O resultado é uma xícara limpa, com acidez suave, caramelo presente e corpo médio. Renato bebe sem açúcar. Mas isso, ele diz, é escolha de cada um.`
+      }
+    ],
+    [
+      {
+        titulo: "Processamentos: natural, lavado e honey",
+        desc: "Como o processamento na fazenda cria sabores diferentes",
+        tempo: "8 min",
+        conteudo: `O processamento é a etapa entre a colheita do fruto do café e a obtenção do grão seco, pronto para a torra. É uma das variáveis que mais impacta o perfil sensorial da bebida, e frequentemente mais do que a própria variedade botânica.
+
+O processamento natural, também chamado de dry process, é o mais antigo. O fruto inteiro é seco ao sol, com a polpa ainda envolvendo o grão. O processo dura entre 3 e 6 semanas. Durante esse período, os açúcares da polpa fermentam e são absorvidos pelo grão, resultando em perfis com notas intensas de frutas tropicais, vinosas e corpo elevado. É o processamento usado na Reserva Alexandria.
+
+O processamento lavado, ou washed, remove a polpa do grão antes da secagem. O resultado é um café mais limpo, com acidez mais evidente e perfil aromático que reflete com maior fidelidade a variedade botânica e a altitude da fazenda. É o processamento preferido para expressar terroir.
+
+O processamento honey, desenvolvido na Costa Rica e amplamente adotado no Brasil, é intermediário. Remove a casca do fruto, mas mantém parte ou toda a mucilagem sobre o grão durante a secagem. A quantidade de mucilagem preservada define subtipos como yellow honey, red honey e black honey, em ordem crescente de doçura e corpo. O Casa Equilíbrio utiliza grãos com processamento honey.
+
+Entender o processamento ajuda a antecipar o perfil da bebida antes mesmo de provar. Natural aponta para frutas e corpo. Lavado aponta para clareza e acidez. Honey aponta para equilíbrio e doçura.`
+      },
+      {
+        titulo: "Extraindo um espresso perfeito",
+        desc: "Os parâmetros que você precisa entender",
+        tempo: "10 min",
+        conteudo: `O espresso é o método com menor margem de erro. Uma variação pequena em qualquer parâmetro altera significativamente o resultado na xícara. Entender as variáveis é o primeiro passo para extrações consistentes.
+
+Dose: a quantidade de café no portafiltro, normalmente entre 16 e 20 gramas, dependendo do tamanho do cesto. A dose determina a resistência que o café oferece à passagem da água.
+
+Yield: a quantidade de líquido extraído, medida em gramas. A proporção de extração, chamada de ratio, é normalmente expressa como 1:2, ou seja, 18 gramas de café para 36 gramas de líquido. Ratios mais altos resultam em espressos mais longos e menos intensos. Ratios mais baixos resultam em concentrações maiores.
+
+Tempo de extração: entre 25 e 30 segundos para uma extração equilibrada. Abaixo de 20 segundos, o café está subextraído, com acidez pronunciada e falta de doçura. Acima de 35 segundos, está superextraído, com amargor dominante.
+
+Moagem: é a principal variável de ajuste. Moagem mais fina aumenta a resistência, desacelera a extração e aumenta o tempo. Moagem mais grossa reduz a resistência e acelera a extração. O ajuste de moagem é o primeiro recurso para corrigir um espresso fora dos parâmetros.
+
+Temperatura: entre 90°C e 96°C. Cafés de torra escura extraem melhor em temperaturas menores, ao redor de 90°C. Cafés de torra clara exigem temperaturas mais altas para desenvolver adequadamente.
+
+Pressão: 9 bar é o padrão estabelecido pela tradição italiana. Algumas máquinas permitem ajuste de pressão, abrindo espaço para experimentação com diferentes perfis de extração.
+
+O espresso perfeito não existe como ponto fixo. Existe como equilíbrio entre acidez, doçura e amargor, ajustado ao paladar de quem bebe.`
+      },
+      {
+        titulo: "Era do Rico essa mania de cardamomo no café",
+        desc: "A herança egípcia e o que ela tem a ensinar",
+        tempo: "5 min",
+        conteudo: `Na Alexandria dos anos 1940, o café não era bebido sozinho. Era servido com cardamomo, às vezes com água de rosas, sempre em xícaras pequenas e sem filtro. Era o café árabe, o qahwa, e era parte de qualquer recepção, de qualquer conversa, de qualquer momento de hospitalidade.
+
+Menahem Levy cresceu nesse ritual. Quando chegou ao Brasil, trouxe o hábito. Não como regra, mas como possibilidade. O cardamomo aparecia na sua xícara em dias específicos, sem método definido, apenas pela memória do que tinha sido normal para ele.
+
+O cardamomo pertence à família do gengibre e é amplamente utilizado na culinária indiana e árabe. No café, ele adiciona notas cítricas e levemente mentoladas, que contrabalançam a amargura e ampliam a percepção de doçura. Do ponto de vista químico, os óleos essenciais do cardamomo, em especial o cineol e o limoneno, interagem com os compostos aromáticos do café e criam um perfil sensorial distinto.
+
+A técnica mais comum é adicionar uma ou duas sementes de cardamomo levemente amassadas ao pó de café antes da extração. Em cafeteiras de filtro ou moka, o resultado é sutil e integrado. Em coados, o aroma é mais pronunciado.
+
+Não é uma preparação para todo dia. Mas é uma preparação que conta uma história. E, às vezes, isso é suficiente para fazer uma xícara valer mais do que o café que ela contém.`
+      }
+    ],
   ];
   return (
     <div className="cl-site sec-light" style={{ paddingTop: 80 }}>
@@ -862,7 +1094,7 @@ function PageCartilha({ nav }) {
               <div style={{ fontFamily: "'Lora', serif", fontSize: 11, letterSpacing: "0.15em", color: COLORS.dourado, marginBottom: 20 }}>{niveis[ativo].toUpperCase()} · {a.tempo} de leitura</div>
               <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 24, color: COLORS.torra, marginBottom: 12 }}>{a.titulo}</h3>
               <p style={{ fontFamily: "'Lora', serif", fontSize: 14, color: COLORS.caramelo, lineHeight: 1.7, marginBottom: 24 }}>{a.desc}</p>
-              <button className="btn-text" style={{ color: COLORS.caramelo, borderBottomColor: COLORS.caramelo, fontSize: 14 }}>Ler →</button>
+              <button className="btn-text" style={{ color: COLORS.caramelo, borderBottomColor: COLORS.caramelo, fontSize: 14 }} onClick={() => setArtigoAberto(a)}>Ler →</button>
             </div>
           ))}
         </div>
@@ -872,47 +1104,26 @@ function PageCartilha({ nav }) {
 }
 
 function PageUtensilios({ nav, openModal }) {
-  const categorias = [
-    { nome: "Xícaras", icon: "○", desc: "Para espresso, cappuccino e filtrado. Porcelana, cerâmica e vidro duplo.", items: ["Xícara espresso 60ml","Xícara cappuccino 150ml","Xícara coado 200ml","Par de xícaras duplo vidro"] },
-    { nome: "Balanças", icon: "⊡", desc: "Precisão é tudo. Para quem quer repetir o café perfeito toda manhã.", items: ["Balança de precisão 0.1g","Balança com timer integrado","Balança pocket para viagem"] },
-    { nome: "Chaleiras", icon: "⌒", desc: "Bico fino para controle total do fluxo no coado.", items: ["Chaleira bico gooseneck 600ml","Chaleira elétrica com temperatura","Chaleira inox com termômetro"] },
-    { nome: "Máquinas de espresso", icon: "▣", desc: "Do básico ao profissional — te ajudamos a escolher.", items: ["Máquina manual (alavanca)","Máquina semi-automática","Máquina automática compacta"] },
-    { nome: "Moedores", icon: "◎", desc: "O moedor importa mais que a máquina. Moagem uniforme é o segredo.", items: ["Moedor manual cônico","Moedor elétrico de entrada","Moedor elétrico profissional"] },
-    { nome: "Métodos manuais", icon: "△", desc: "V60, Chemex, Aeropress, French Press — tudo para explorar o coado.", items: ["Hario V60 + filtros","Chemex 6 xícaras","Aeropress completo","French Press 600ml"] },
-  ];
   return (
     <div className="cl-site sec-light" style={{ paddingTop: 80 }}>
-      <div style={{ background: COLORS.cremeBg, padding: "80px 60px 60px" }}>
-        <button onClick={() => nav("home")} style={{ fontFamily: "'Lora', serif", fontSize: 13, color: COLORS.caramelo, background: "none", border: "none", cursor: "pointer", marginBottom: 40, opacity: 0.7 }}>← Voltar</button>
-        <div style={{ textAlign: "center", marginBottom: 64 }}>
+      <div style={{ background: COLORS.cremeBg, padding: "80px 60px", minHeight: "60vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center" }}>
+        <button onClick={() => nav("home")} style={{ fontFamily: "'Lora', serif", fontSize: 13, color: COLORS.caramelo, background: "none", border: "none", cursor: "pointer", marginBottom: 60, opacity: 0.7, alignSelf: "flex-start" }}>← Voltar</button>
+        <div style={{ maxWidth: 560, margin: "0 auto" }}>
           <span className="descriptor" style={{ color: COLORS.caramelo }}>A LOJA</span>
-          <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(40px,6vw,68px)", color: COLORS.torra, marginBottom: 20 }}>Utensílios para o ritual</h1>
-          <p style={{ fontFamily: "'Lora', serif", fontSize: 17, lineHeight: 1.8, color: COLORS.torra, opacity: 0.65, maxWidth: 560, margin: "0 auto" }}>Curadoria da Casa Levy para baristas caseiros e apreciadores do ritual.</p>
-        </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px,1fr))", gap: 28, maxWidth: 1100, margin: "0 auto" }}>
-          {categorias.map((c, i) => (
-            <div key={i} className="utensilio-card">
-              <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 20 }}>
-                <div style={{ width: 48, height: 48, border: "0.5px solid " + COLORS.dourado, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20, color: COLORS.caramelo, flexShrink: 0 }}>{c.icon}</div>
-                <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 26, color: COLORS.torra }}>{c.nome}</h3>
-              </div>
-              <p style={{ fontFamily: "'Lora', serif", fontSize: 14, color: COLORS.torra, opacity: 0.65, lineHeight: 1.7, marginBottom: 20 }}>{c.desc}</p>
-              <div style={{ borderTop: "0.5px solid rgba(139,94,60,0.15)", paddingTop: 16, marginBottom: 24 }}>
-                {c.items.map((item, j) => (
-                  <div key={j} style={{ fontFamily: "'Lora', serif", fontSize: 13, color: COLORS.caramelo, padding: "6px 0", borderBottom: "0.5px solid rgba(139,94,60,0.08)", display: "flex", alignItems: "center", gap: 8 }}>
-                    <span style={{ color: COLORS.dourado, fontSize: 8 }}>·</span>{item}
-                  </div>
-                ))}
-              </div>
-              <button className="btn-secondary-dark" style={{ fontSize: 12, padding: "10px 20px" }} onClick={() => openModal("um utensílio da categoria " + c.nome)}>Ver produtos →</button>
-            </div>
-          ))}
-        </div>
-        <div style={{ textAlign: "center", marginTop: 64, padding: "48px", border: "0.5px solid rgba(139,94,60,0.2)", maxWidth: 600, margin: "64px auto 0" }}>
-          <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 13, letterSpacing: "0.2em", color: COLORS.caramelo, marginBottom: 16 }}>PRECISA DE AJUDA?</div>
-          <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 30, color: COLORS.torra, marginBottom: 16 }}>A casa indica o equipamento certo</h3>
-          <p style={{ fontFamily: "'Lora', serif", fontSize: 15, color: COLORS.torra, opacity: 0.65, lineHeight: 1.7, marginBottom: 28 }}>Me conta como você toma café e o que tem em casa — a gente sugere o que faz mais sentido para o seu ritual.</p>
-          <button className="btn-primary" onClick={() => openModal("consultoria de equipamentos")}>Falar com a casa</button>
+          <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(40px,6vw,68px)", color: COLORS.torra, marginBottom: 32 }}>Utensílios para o ritual</h1>
+          <div style={{ width: 60, height: 0.5, background: COLORS.dourado, margin: "0 auto 40px", opacity: 0.5 }}/>
+          <p style={{ fontFamily: "'Lora', serif", fontSize: 17, lineHeight: 1.9, color: COLORS.torra, opacity: 0.7, marginBottom: 16 }}>
+            Estamos fazendo a curadoria dos equipamentos certos — xícaras, balanças, chaleiras, moedores, máquinas de espresso e métodos manuais.
+          </p>
+          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: 20, color: COLORS.caramelo, marginBottom: 48 }}>
+            Só colocamos aqui o que a casa realmente usa e recomenda.
+          </p>
+          <p style={{ fontFamily: "'Lora', serif", fontSize: 14, color: COLORS.caramelo, opacity: 0.6, marginBottom: 40 }}>
+            Em breve.
+          </p>
+          <button className="btn-secondary-dark" onClick={() => openModal("aviso de novidades da loja")}>
+            Me avisa quando chegar →
+          </button>
         </div>
       </div>
       <Footer nav={nav} openModal={openModal}/>
