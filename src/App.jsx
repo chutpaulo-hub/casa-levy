@@ -838,7 +838,7 @@ function PageReserva({ nav, openModal }) {
     <div className="cl-site" style={{ paddingTop: 80 }}>
       <section style={{ background: "#1A0E0A", padding: "80px 60px", textAlign: "center" }}>
         <button onClick={() => nav("home")} style={{ fontFamily: "'Lora', serif", fontSize: 13, color: COLORS.creme, background: "none", border: "none", cursor: "pointer", marginBottom: 40, opacity: 0.5 }}>← Voltar</button>
-        <RicoPhoto size={180}/>
+        <RicoPortrait size={180}/>
         <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 13, letterSpacing: "0.35em", color: COLORS.latao, margin: "24px 0 16px" }}>RESERVA RICO</div>
         <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "clamp(40px,6vw,72px)", color: COLORS.creme, marginBottom: 24 }}>Uma homenagem em cada lote</h1>
         <p style={{ fontFamily: "'Lora', serif", fontSize: 17, lineHeight: 1.9, color: COLORS.creme, opacity: 0.75, maxWidth: 600, margin: "0 auto 24px" }}>Microlotes especiais numerados à mão, em homenagem ao avô Menahem. Disponível avulso por R$ 99 — ou de surpresa a cada 3 meses para quem assina.</p>
