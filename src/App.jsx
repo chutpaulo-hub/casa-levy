@@ -423,7 +423,7 @@ function FAQ() {
     { q: "Como o café fica fresco até chegar?", a: "Torramos toda semana, embalamos com válvula desgaseificadora, e enviamos em até 48h depois da torra." },
     { q: "Posso presentear?", a: "Pode. Temos opção de presente em todos os blends e na Reserva Rico. Embrulho especial e cartão escrito à mão." },
     { q: "De onde vem o café?", a: "De fazendas brasileiras com relação direta com a Casa Levy. Cada blend vem com a ficha do produtor." },
-    { q: "O que é a Reserva Rico?", a: "Microlotes especiais em homenagem ao avô Menahem. Edição limitada, numerada à mão, exclusiva para assinantes — entregue a cada 3 meses como surpresa da casa." },
+    { q: "O que é a Reserva Rico?", a: "Microlotes especiais em homenagem ao avô Menahem. Edição limitada, numerada à mão. Assinantes têm acesso antecipado a cada novo lote. Quem completa 6 meses de assinatura recebe um lote escolhido pelo Renato, de presente da casa." },
   ];
   return (
     <div style={{ maxWidth: 700, margin: "0 auto" }}>
@@ -809,8 +809,9 @@ function PageClube({ nav, openModal }) {
           { n: "01", titulo: "Escolhe seu blend", desc: "Vai na página do blend, escolhe a gramatura (250g ou 500g) e como prefere — em grão ou moído. Clica em Assinar." },
           { n: "02", titulo: "Recebe todo mês", desc: "Café fresco, torrado na semana, embalado com a Cartilha do mês e um cartão da casa. Todo mês, na mesma data." },
           { n: "03", titulo: "10% de desconto sempre", desc: "R$ 49 vira R$ 44. R$ 90 vira R$ 81. O desconto é automático, todo mês, sem precisar lembrar." },
-          { n: "04", titulo: "Reserva Rico a cada 3 meses", desc: "A cada três entregas, o Renato escolhe um lote especial da Reserva Rico para você. Surpresa da casa. Exclusivo para assinantes." },
-          { n: "05", titulo: "Sem fidelidade", desc: "Pause, mude o blend, mude a gramatura, cancele. Sem taxa, sem motivo, a qualquer momento." },
+          { n: "04", titulo: "Reserva Rico após 6 meses", desc: "Quem completa 6 meses de assinatura recebe um lote da Reserva Rico escolhido pelo Renato. Um presente da casa para quem ficou." },
+          { n: "05", titulo: "Acesso antecipado à Reserva Rico", desc: "Quando um novo lote sai, assinantes sabem primeiro e podem garantir o seu antes do público geral." },
+          { n: "06", titulo: "Sem fidelidade", desc: "Pause, mude o blend, mude a gramatura, cancele. Sem taxa, sem motivo, a qualquer momento." },
         ].map((p, i) => (
           <div key={i} style={{ display: "flex", gap: 28, marginBottom: 40, paddingBottom: 40, borderBottom: i < 4 ? "0.5px solid rgba(139,94,60,0.15)" : "none" }}>
             <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 40, color: COLORS.dourado, opacity: 0.4, lineHeight: 1, flexShrink: 0, width: 48 }}>{p.n}</div>
@@ -841,9 +842,9 @@ function PageReserva({ nav, openModal }) {
         <RicoPortrait size={180}/>
         <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 13, letterSpacing: "0.35em", color: COLORS.latao, margin: "24px 0 16px" }}>RESERVA RICO</div>
         <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "clamp(40px,6vw,72px)", color: COLORS.creme, marginBottom: 24 }}>Uma homenagem em cada lote</h1>
-        <p style={{ fontFamily: "'Lora', serif", fontSize: 17, lineHeight: 1.9, color: COLORS.creme, opacity: 0.75, maxWidth: 600, margin: "0 auto 24px" }}>Microlotes especiais numerados à mão, em homenagem ao avô Menahem. Disponível avulso por R$ 99 — ou de surpresa a cada 3 meses para quem assina.</p>
+        <p style={{ fontFamily: "'Lora', serif", fontSize: 17, lineHeight: 1.9, color: COLORS.creme, opacity: 0.75, maxWidth: 600, margin: "0 auto 24px" }}>Microlotes especiais numerados à mão, em homenagem ao avô Menahem. Disponível avulso por R$ 99. Assinantes têm acesso antecipado a cada novo lote e, após 6 meses de assinatura, o Renato escolhe um lote especial e envia de presente.</p>
         <div style={{ display: "inline-block", background: COLORS.latao + "15", border: "0.5px solid " + COLORS.latao + "50", padding: "14px 32px", marginBottom: 40 }}>
-          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: 17, color: COLORS.latao }}>Assinantes recebem a Reserva Rico de surpresa a cada 3 meses</p>
+          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: 17, color: COLORS.latao }}>Assinantes têm acesso antecipado e ganham um lote após 6 meses</p>
         </div>
         <br/>
         <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
