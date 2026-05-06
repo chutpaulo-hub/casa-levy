@@ -78,14 +78,14 @@ const SL = {
 };
 
 function getStripeUrl(blendId, gram, tipo, moagem) {
-  var m = encodeURIComponent(moagem || "Em grao");
   var g = gram === "250g" ? "250" : "500";
   var t = tipo === "assinatura" ? "s" : "a";
   var prefix = blendId === "blend-original" ? "o" : blendId === "blend-equilibrio" ? "e" : "h";
   var key = prefix + g + t;
   var base = SL[key];
   if (!base) return null;
-  return base + "?prefilled_custom_field_moagem=" + m;
+  var m = encodeURIComponent(moagem || "Em grao");
+  return base + "?utm_content=" + m;
 }
 
 function getReservaUrl(nome) {
@@ -207,9 +207,8 @@ function BuyBox({ blend, blendId, openModal }) {
   var economia = precoAvulso - precoAssine;
   var moagens = [
     { id: "Em grao", label: "Em grao", desc: "Para quem tem moedor" },
-    { id: "Moido para espresso", label: "Moido para espresso", desc: "Moagem fina" },
-    { id: "Moido para coado", label: "Moido para coado", desc: "V60, Chemex, Hario" },
-    { id: "Moido para italiana", label: "Moido para italiana", desc: "Moka" }
+    { id: "Moido para espresso", label: "Moido para espresso", desc: "Para maquina de espresso" },
+    { id: "Moido para filtrado", label: "Moido para filtrado", desc: "V60, Chemex, coador, francesa" }
   ];
   function handleMoagem(id) { setMoagem(id); setShowMachineNote(id === "Moido para espresso"); }
   function handleComprar() {
