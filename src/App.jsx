@@ -1,12 +1,12 @@
 import { useState, useEffect, useRef } from "react";
-
+ 
 const COLORS = {
   torra: "#2B1810", cacau: "#3A2418", caramelo: "#8B5E3C",
   dourado: "#D4A574", latao: "#C9A961", creme: "#EFE4D2", cremeBg: "#F5EFE6"
 };
-
+ 
 const fonts = `@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Lora:ital,wght@0,400;0,500;1,400&display=swap');`;
-
+ 
 const globalCSS = `
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { background: ${COLORS.torra}; }
@@ -50,15 +50,20 @@ h1,h2,h3,h4 { font-family: 'Cormorant Garamond', serif; }
 .faq-a { font-family: 'Lora', serif; font-size: 15px; line-height: 1.8; color: ${COLORS.caramelo}; padding-bottom: 24px; padding-right: 40px; }
 .blend-card { background: white; border: 1px solid rgba(139,94,60,0.15); padding: 48px 40px; transition: transform 0.3s, box-shadow 0.3s; cursor: pointer; }
 .blend-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(139,94,60,0.12); }
+@media(max-width:768px){ .blend-card { padding: 32px 24px; } }
 .dep-card { background: ${COLORS.cacau}; border: 1px solid rgba(212,165,116,0.2); padding: 48px 36px; flex: 1; min-width: 220px; }
+@media(max-width:768px){ .dep-card { padding: 32px 24px; min-width: 100%; } }
 .testi-quote { font-family: 'Cormorant Garamond', serif; font-size: 60px; line-height: 0.5; color: ${COLORS.dourado}; margin-bottom: 16px; display: block; }
 .buy-box { border: 0.5px solid rgba(139,94,60,0.2); padding: 32px; margin-top: 32px; }
+@media(max-width:768px){ .buy-box { padding: 20px 16px; } }
 .buy-option { display: flex; flex-direction: column; gap: 8px; padding: 20px; border: 0.5px solid rgba(139,94,60,0.2); cursor: pointer; transition: all 0.25s; position: relative; }
+@media(max-width:768px){ .buy-option { padding: 16px 12px; } }
 .buy-option.selected { border-color: var(--accent); background: rgba(212,165,116,0.06); }
 .buy-option.featured { border-color: var(--accent); }
+.modal-box { padding: 40px 24px !important; }
 @keyframes pulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
 `;
-
+ 
 const SL = {
   o250a: "https://buy.stripe.com/eVq28sfZUaWk8ub76P6wE0c",
   o250s: "https://buy.stripe.com/7sY28s6pk1lKdOv9eX6wE0d",
@@ -76,7 +81,7 @@ const SL = {
   rparis: "https://buy.stripe.com/aFa00k00We8w25Nezh6wE03",
   rrio: "https://buy.stripe.com/3cI5kEbJE8Oc8ub4YH6wE06"
 };
-
+ 
 function getStripeUrl(blendId, gram, tipo, moagem) {
   var g = gram === "250g" ? "250" : "500";
   var t = tipo === "assinatura" ? "s" : "a";
@@ -87,14 +92,14 @@ function getStripeUrl(blendId, gram, tipo, moagem) {
   var m = encodeURIComponent(moagem || "Em grao");
   return base + "?utm_content=" + m;
 }
-
+ 
 function getReservaUrl(nome) {
   if (nome === "Reserva Alexandria") return SL.ralex;
   if (nome === "Reserva Paris") return SL.rparis;
   if (nome === "Reserva Rio") return SL.rrio;
   return null;
 }
-
+ 
 const MonogramL = ({ size = 180, color = COLORS.dourado, letter = "L", showDots = true }) => (
   <svg width={size} height={size} viewBox="0 0 200 200" fill="none">
     <circle cx="100" cy="100" r="90" stroke={color} strokeWidth="1.8"/>
@@ -103,7 +108,7 @@ const MonogramL = ({ size = 180, color = COLORS.dourado, letter = "L", showDots 
     {showDots && (<><circle cx="90" cy="148" r="1.5" fill={color}/><circle cx="100" cy="148" r="1.5" fill={color}/><circle cx="110" cy="148" r="1.5" fill={color}/></>)}
   </svg>
 );
-
+ 
 const RicoPortrait = ({ size = 160 }) => (
   <div style={{ width: size, height: size, margin: "0 auto", position: "relative" }}>
     <svg width={size} height={size} viewBox="0 0 200 200" fill="none">
@@ -141,7 +146,7 @@ const RicoPortrait = ({ size = 160 }) => (
     </svg>
   </div>
 );
-
+ 
 const SacoBlend = ({ blend, gram, moagem, isReserva, loteNome, loteNotas }) => {
   var w = gram === "250g" ? 160 : 192;
   var h = gram === "250g" ? 240 : 288;
@@ -186,7 +191,7 @@ const SacoBlend = ({ blend, gram, moagem, isReserva, loteNome, loteNotas }) => {
     </svg>
   );
 };
-
+ 
 const CupSVG = () => (
   <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
     <path d="M20 30 L100 30 L90 100 L30 100 Z" fill="none" stroke={COLORS.dourado} strokeWidth="1"/>
@@ -195,7 +200,7 @@ const CupSVG = () => (
     <path d="M100 45 Q120 50 115 70 Q110 85 95 80" fill="none" stroke={COLORS.dourado} strokeWidth="1"/>
   </svg>
 );
-
+ 
 function BuyBox({ blend, blendId, openModal }) {
   const [gram, setGram] = useState("250g");
   const [moagem, setMoagem] = useState("Em grao");
@@ -286,7 +291,7 @@ function BuyBox({ blend, blendId, openModal }) {
     </div>
   );
 }
-
+ 
 function useFadeIn() {
   const ref = useRef(null);
   useEffect(function() {
@@ -300,12 +305,12 @@ function useFadeIn() {
   }, []);
   return ref;
 }
-
+ 
 function FadeIn({ children, style }) {
   var ref = useFadeIn();
   return <div ref={ref} className="fade-in" style={style || {}}>{children}</div>;
 }
-
+ 
 function Modal({ content, onClose }) {
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -321,7 +326,7 @@ function Modal({ content, onClose }) {
     </div>
   );
 }
-
+ 
 function FAQ() {
   const [open, setOpen] = useState(null);
   var items = [
@@ -347,7 +352,7 @@ function FAQ() {
     </div>
   );
 }
-
+ 
 function Hero({ nav }) {
   return (
     <section className="sec-dark" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "120px 24px 80px" }}>
@@ -366,7 +371,7 @@ function Hero({ nav }) {
     </section>
   );
 }
-
+ 
 function Manifesto({ nav }) {
   return (
     <section className="sec-dark pad-sec">
@@ -387,7 +392,7 @@ function Manifesto({ nav }) {
     </section>
   );
 }
-
+ 
 function Historia({ nav }) {
   var pessoas = [
     { gen: "A primeira geracao", nome: 'Menahem "Rico" Levy', anos: "1939 - 2024", texto: "Nasceu no Egito, em uma Alexandria cosmopolita onde o cafe arabe era moeda de hospitalidade. Quando os judeus foram expulsos, perdeu casa, lingua e referencias, mas trouxe na memoria a forma de fazer cafe. Estudou na Franca. Escolheu o Brasil como patria. Foi exportador, operador de mercado, pioneiro do espresso italiano em bares e restaurantes brasileiros. Foi chamado de Rico a vida inteira, porque era rico de historia, de afeto, de paladar." },
@@ -423,7 +428,7 @@ function Historia({ nav }) {
     </section>
   );
 }
-
+ 
 function Blends({ nav }) {
   var blends = [
     { id: "blend-original", nome: "Casa Original", torra: "TORRA ESCURA", uso: "Para espresso e\ncafeteira italiana", notas: "chocolate amargo . caramelo escuro . corpo cheio", frase: "O cafe que o Rico tomava de manha. Forte, presente, direto.", accent: COLORS.caramelo },
@@ -458,7 +463,7 @@ function Blends({ nav }) {
     </section>
   );
 }
-
+ 
 function ReservaRicoHome({ nav }) {
   return (
     <section className="sec-deep pad-sec" style={{ textAlign: "center" }}>
@@ -478,7 +483,7 @@ function ReservaRicoHome({ nav }) {
     </section>
   );
 }
-
+ 
 function Cartilha({ nav }) {
   var artigos = [
     { titulo: "A diferenca entre torras", desc: "Por que o mesmo grao e outro cafe conforme a torra" },
@@ -489,7 +494,7 @@ function Cartilha({ nav }) {
   return (
     <section className="sec-light pad-sec">
       <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px,1fr))", gap: 80, alignItems: "center" }}>
           <FadeIn style={{ display: "flex", justifyContent: "center" }}><CupSVG/></FadeIn>
           <FadeIn>
             <span className="descriptor" style={{ color: COLORS.caramelo }}>A CARTILHA DA CASA</span>
@@ -510,7 +515,7 @@ function Cartilha({ nav }) {
     </section>
   );
 }
-
+ 
 function ComoChega() {
   var passos = [
     { n: "01", titulo: "Escolhe o blend", desc: "Navega, se apaixona, escolhe a gramatura e a moagem. Compra avulso ou assina com 10% de desconto." },
@@ -540,7 +545,7 @@ function ComoChega() {
     </section>
   );
 }
-
+ 
 function Depoimentos() {
   var deps = [
     { texto: "Comecei a entender de cafe depois de assinar. A Cartilha sozinha ja valeria a mensalidade, mas o cafe e melhor ainda.", autor: "Marina S.", cidade: "Rio de Janeiro" },
@@ -570,7 +575,7 @@ function Depoimentos() {
     </section>
   );
 }
-
+ 
 function FAQSection() {
   return (
     <section className="sec-light pad-sec">
@@ -584,10 +589,10 @@ function FAQSection() {
     </section>
   );
 }
-
+ 
 function Footer({ nav, openModal }) {
   return (
-    <footer className="sec-cacau" style={{ padding: "80px 60px 40px" }}>
+    <footer className="sec-cacau" style={{ padding: "80px 24px 40px" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto" }}>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px,1fr))", gap: 60, marginBottom: 64 }}>
           <div>
@@ -636,7 +641,7 @@ function Footer({ nav, openModal }) {
     </footer>
   );
 }
-
+ 
 function PageBlend({ blendId: initialBlendId, nav, openModal }) {
   var blendsData = {
     "blend-original": { nome: "Casa Original", torra: "TORRA ESCURA", uso: "Para espresso e\ncafeteira italiana", frase: "O cafe que o Rico tomava de manha. Forte, presente, direto.", notas: "chocolate amargo . caramelo escuro . corpo cheio", accent: COLORS.caramelo, historia: "O Original nasce da memoria de Menahem. Uma torra escura, desenvolvida, que extrai o melhor dos graos do Cerrado e da Mogiana.", metodos: [{ nome: "Espresso", proporcao: "1:2 (18g para 36ml)", tempo: "25-30s" },{ nome: "Cafeteira italiana", proporcao: "Moido medio-fino", tempo: "4-5 min" },{ nome: "Moka", proporcao: "Agua fria, fogo medio", tempo: "6-7 min" }] },
@@ -648,20 +653,20 @@ function PageBlend({ blendId: initialBlendId, nav, openModal }) {
   var b = blendsData[blendId];
   return (
     <div className="cl-site sec-light" style={{ paddingTop: 80 }}>
-      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "60px 60px" }}>
+      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "60px 24px" }}>
         <button onClick={function() { nav("home"); }} style={{ fontFamily: "'Lora', serif", fontSize: 13, color: COLORS.caramelo, background: "none", border: "none", cursor: "pointer", marginBottom: 32, opacity: 0.7 }}>Voltar</button>
         <div style={{ display: "flex", gap: 0, marginBottom: 48, flexWrap: "wrap" }}>
           {Object.keys(blendsData).map(function(id) {
             var bd = blendsData[id];
             return (
-              <button key={id} onClick={function() { setBlendId(id); setGram("250g"); }} style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 15, letterSpacing: "0.12em", padding: "12px 28px", background: blendId === id ? bd.accent + "20" : "transparent", border: "0.5px solid " + (blendId === id ? bd.accent : "rgba(139,94,60,0.25)"), borderRight: id !== "blend-horizonte" ? "none" : "0.5px solid " + (blendId === id ? bd.accent : "rgba(139,94,60,0.25)"), color: COLORS.torra, cursor: "pointer", transition: "all 0.25s", fontStyle: blendId === id ? "italic" : "normal" }}>
+              <button key={id} onClick={function() { setBlendId(id); setGram("250g"); }} style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 13, letterSpacing: "0.08em", padding: "10px 16px", background: blendId === id ? bd.accent + "20" : "transparent", border: "0.5px solid " + (blendId === id ? bd.accent : "rgba(139,94,60,0.25)"), borderRight: id !== "blend-horizonte" ? "none" : "0.5px solid " + (blendId === id ? bd.accent : "rgba(139,94,60,0.25)"), color: COLORS.torra, cursor: "pointer", transition: "all 0.25s", fontStyle: blendId === id ? "italic" : "normal" }}>
                 {bd.nome.replace("Casa ","")}
               </button>
             );
           })}
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1.2fr", gap: 64, alignItems: "start" }}>
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16, position: "sticky", top: 100 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 48, alignItems: "start" }}>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
             <SacoBlend blend={b} gram={gram} moagem=""/>
             <div style={{ fontFamily: "'Lora', serif", fontSize: 12, color: COLORS.caramelo, textAlign: "center", opacity: 0.7 }}>
               {gram === "250g" ? "R$ 49 avulso - R$ 44/mes assinando" : "R$ 90 avulso - R$ 81/mes assinando"}
@@ -695,7 +700,7 @@ function PageBlend({ blendId: initialBlendId, nav, openModal }) {
     </div>
   );
 }
-
+ 
 function PageClube({ nav }) {
   var steps = [
     { n: "01", titulo: "Escolhe seu blend", desc: "Vai na pagina do blend, escolhe a gramatura e a moagem. Clica em Assinar." },
@@ -707,7 +712,7 @@ function PageClube({ nav }) {
   ];
   return (
     <div className="cl-site sec-light" style={{ paddingTop: 80 }}>
-      <div style={{ maxWidth: 800, margin: "0 auto", padding: "80px 60px" }}>
+      <div style={{ maxWidth: 800, margin: "0 auto", padding: "80px 24px" }}>
         <button onClick={function() { nav("home"); }} style={{ fontFamily: "'Lora', serif", fontSize: 13, color: COLORS.caramelo, background: "none", border: "none", cursor: "pointer", marginBottom: 40, opacity: 0.7 }}>Voltar</button>
         <span className="descriptor" style={{ color: COLORS.caramelo }}>COMO FUNCIONA</span>
         <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(40px,6vw,68px)", color: COLORS.torra, marginBottom: 24 }}>A assinatura<br/><em>Casa Levy</em></h1>
@@ -728,7 +733,7 @@ function PageClube({ nav }) {
     </div>
   );
 }
-
+ 
 function PageReserva({ nav, openModal }) {
   var lotes = [
     { nome: "Reserva Alexandria", sub: "A cidade onde tudo comecou", fazenda: "Fazenda Pedra Alta, Cerrado Mineiro", proc: "Natural", notas: "chocolate amargo . especiarias . cardamomo", historia: "Em homenagem a Alexandria onde Menahem nasceu, ao cafe arabe servido em xicaras pequenas, ao cardamomo que ele nunca esqueceu." },
@@ -737,7 +742,7 @@ function PageReserva({ nav, openModal }) {
   ];
   return (
     <div className="cl-site" style={{ paddingTop: 80 }}>
-      <section style={{ background: "#1A0E0A", padding: "80px 60px", textAlign: "center" }}>
+      <section style={{ background: "#1A0E0A", padding: "80px 24px", textAlign: "center" }}>
         <button onClick={function() { nav("home"); }} style={{ fontFamily: "'Lora', serif", fontSize: 13, color: COLORS.creme, background: "none", border: "none", cursor: "pointer", marginBottom: 40, opacity: 0.5 }}>Voltar</button>
         <RicoPortrait size={180}/>
         <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 13, letterSpacing: "0.35em", color: COLORS.latao, margin: "24px 0 16px" }}>RESERVA RICO</div>
@@ -752,7 +757,7 @@ function PageReserva({ nav, openModal }) {
           <button className="btn-secondary" onClick={function() { nav("blend-original"); }}>Assinar e receber de surpresa</button>
         </div>
       </section>
-      <section style={{ background: COLORS.torra, padding: "80px 60px" }}>
+      <section style={{ background: COLORS.torra, padding: "80px 24px" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: 64 }}>
             <span className="descriptor">LOTES ATUAIS</span>
@@ -767,8 +772,6 @@ function PageReserva({ nav, openModal }) {
                 </div>
                 <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 24, color: COLORS.creme, marginBottom: 4 }}>{l.nome}</h3>
                 <div style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: 15, color: COLORS.latao, marginBottom: 16, opacity: 0.8 }}>{l.sub}</div>
-                <div style={{ fontFamily: "'Lora', serif", fontSize: 13, color: COLORS.creme, opacity: 0.55, marginBottom: 4 }}>{l.fazenda}</div>
-                <div style={{ fontFamily: "'Lora', serif", fontSize: 13, color: COLORS.latao, marginBottom: 16 }}>Processamento: {l.proc}</div>
                 <p style={{ fontFamily: "'Lora', serif", fontSize: 13, color: COLORS.creme, opacity: 0.5, lineHeight: 1.7, marginBottom: 24 }}>{l.historia}</p>
                 <div style={{ height: "0.5px", background: COLORS.latao, opacity: 0.3, marginBottom: 20 }}/>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
@@ -787,11 +790,11 @@ function PageReserva({ nav, openModal }) {
     </div>
   );
 }
-
+ 
 function PageCasa({ nav }) {
   return (
     <div className="cl-site sec-light" style={{ paddingTop: 80 }}>
-      <div style={{ maxWidth: 800, margin: "0 auto", padding: "80px 60px" }}>
+      <div style={{ maxWidth: 800, margin: "0 auto", padding: "80px 24px" }}>
         <button onClick={function() { nav("home"); }} style={{ fontFamily: "'Lora', serif", fontSize: 13, color: COLORS.caramelo, background: "none", border: "none", cursor: "pointer", marginBottom: 40, opacity: 0.7 }}>Voltar</button>
         <span className="descriptor" style={{ color: COLORS.caramelo }}>A CASA</span>
         <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(44px,6vw,72px)", color: COLORS.torra, marginBottom: 48, lineHeight: 1.1 }}>Tres geracoes,<br/><em>uma travessia.</em></h1>
@@ -802,7 +805,7 @@ function PageCasa({ nav }) {
         </div>
         <p style={{ fontFamily: "'Lora', serif", fontSize: 17, lineHeight: 1.95, color: COLORS.torra, opacity: 0.75, marginBottom: 32 }}>Com a perseguicao aos judeus no Egito, Menahem perde tudo. Passa pela Franca. Chega ao Brasil com as referencias que nenhum exilio consegue tirar: o paladar, a hospitalidade, e a conviccao de que cafe e gesto de presenca.</p>
         <p style={{ fontFamily: "'Lora', serif", fontSize: 17, lineHeight: 1.95, color: COLORS.torra, opacity: 0.75, marginBottom: 32 }}>No Brasil, Rico vira exportador de cafe. Operador do mercado. Pioneiro em trazer o espresso italiano para bares e restaurantes brasileiros. Monta torrefacao. Constroi uma carreira inteira ao redor do cafe.</p>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 24, margin: "64px 0", textAlign: "center" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: 24, margin: "64px 0", textAlign: "center" }}>
           {[["1939","Nasce em Alexandria"],["anos 1950","Chega ao Brasil"],["anos 1980","Pioneiro do espresso"],["2026","Casa Levy"]].map(function(item, i) { return (
             <div key={i}>
               <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 18, color: COLORS.dourado, marginBottom: 8 }}>{item[0]}</div>
@@ -816,7 +819,7 @@ function PageCasa({ nav }) {
     </div>
   );
 }
-
+ 
 function PageCartilha({ nav }) {
   var niveis = ["Esta comecando","Ja entendeu","Quer ir fundo"];
   const [ativo, setAtivo] = useState(0);
@@ -838,11 +841,11 @@ function PageCartilha({ nav }) {
       { titulo: "Era do Rico essa mania de cardamomo no cafe", desc: "A heranca egipcia e o que ela tem a ensinar", tempo: "5 min", conteudo: "Na Alexandria dos anos 1940, o cafe nao era bebido sozinho. Era servido com cardamomo, as vezes com agua de rosas, sempre em xicaras pequenas. Era o cafe arabe, o qahwa.\n\nMenahem Levy cresceu nesse ritual. Quando chegou ao Brasil, trouxe o habito. O cardamomo aparecia na sua xicara em dias especificos, pela memoria do que tinha sido normal para ele.\n\nO cardamomo pertence a familia do gengibre. No cafe, ele adiciona notas citricas e levemente mentoladas, que contrabalancam a amargura e ampliam a percepcao de docura.\n\nA tecnica mais comum e adicionar uma ou duas sementes levemente amassadas ao po antes da extracao.\n\nNao e uma preparacao para todo dia. Mas e uma preparacao que conta uma historia." }
     ]
   ];
-
+ 
   if (artigoAberto) {
     return (
       <div className="cl-site sec-light" style={{ paddingTop: 80 }}>
-        <div style={{ maxWidth: 720, margin: "0 auto", padding: "60px 60px" }}>
+        <div style={{ maxWidth: 720, margin: "0 auto", padding: "60px 24px" }}>
           <button onClick={function() { setArtigoAberto(null); }} style={{ fontFamily: "'Lora', serif", fontSize: 13, color: COLORS.caramelo, background: "none", border: "none", cursor: "pointer", marginBottom: 40, opacity: 0.7 }}>Voltar para a Cartilha</button>
           <div style={{ fontFamily: "'Lora', serif", fontSize: 11, letterSpacing: "0.15em", color: COLORS.dourado, marginBottom: 24 }}>{niveis[ativo].toUpperCase()} - {artigoAberto.tempo} de leitura</div>
           <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(32px,5vw,52px)", color: COLORS.torra, marginBottom: 16, lineHeight: 1.2 }}>{artigoAberto.titulo}</h1>
@@ -857,18 +860,18 @@ function PageCartilha({ nav }) {
       </div>
     );
   }
-
+ 
   return (
     <div className="cl-site sec-light" style={{ paddingTop: 80 }}>
-      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "80px 60px" }}>
+      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "80px 24px" }}>
         <button onClick={function() { nav("home"); }} style={{ fontFamily: "'Lora', serif", fontSize: 13, color: COLORS.caramelo, background: "none", border: "none", cursor: "pointer", marginBottom: 40, opacity: 0.7 }}>Voltar</button>
         <div style={{ textAlign: "center", marginBottom: 64 }}>
           <span className="descriptor" style={{ color: COLORS.caramelo }}>A CARTILHA DA CASA</span>
           <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(44px,6vw,72px)", color: COLORS.torra }}>Nao vendemos cafe.<br/><em>Ensinamos.</em></h1>
         </div>
-        <div style={{ display: "flex", justifyContent: "center", gap: 0, marginBottom: 64 }}>
+        <div style={{ display: "flex", justifyContent: "center", gap: 0, marginBottom: 64, flexWrap: "wrap" }}>
           {niveis.map(function(n, i) { return (
-            <button key={i} onClick={function() { setAtivo(i); }} style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 16, letterSpacing: "0.1em", padding: "12px 28px", background: "none", cursor: "pointer", border: "0.5px solid " + COLORS.dourado, borderRight: i < 2 ? "none" : "0.5px solid " + COLORS.dourado, color: ativo === i ? COLORS.torra : COLORS.caramelo, backgroundColor: ativo === i ? COLORS.dourado + "30" : "transparent", transition: "all 0.3s" }}>{n}</button>
+            <button key={i} onClick={function() { setAtivo(i); }} style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 14, letterSpacing: "0.08em", padding: "10px 16px", background: "none", cursor: "pointer", border: "0.5px solid " + COLORS.dourado, borderRight: i < 2 ? "none" : "0.5px solid " + COLORS.dourado, color: ativo === i ? COLORS.torra : COLORS.caramelo, backgroundColor: ativo === i ? COLORS.dourado + "30" : "transparent", transition: "all 0.3s" }}>{n}</button>
           ); })}
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px,1fr))", gap: 32 }}>
@@ -885,7 +888,7 @@ function PageCartilha({ nav }) {
     </div>
   );
 }
-
+ 
 function PageUtensilios({ nav, openModal }) {
   return (
     <div className="cl-site sec-light" style={{ paddingTop: 80 }}>
@@ -905,7 +908,7 @@ function PageUtensilios({ nav, openModal }) {
     </div>
   );
 }
-
+ 
 function Home({ nav, openModal }) {
   return (
     <>
@@ -922,25 +925,25 @@ function Home({ nav, openModal }) {
     </>
   );
 }
-
+ 
 export default function CasaLevy() {
   const [page, setPage] = useState("home");
   const [modal, setModal] = useState({ open: false, content: "" });
   const [menuOpen, setMenuOpen] = useState(false);
-
+ 
   useEffect(function() {
     var style = document.createElement("style");
     style.textContent = fonts + globalCSS;
     document.head.appendChild(style);
     return function() { document.head.removeChild(style); };
   }, []);
-
+ 
   useEffect(function() { window.scrollTo(0, 0); setMenuOpen(false); }, [page]);
-
+ 
   function nav(p) { setPage(p); }
   function openModal(content) { setModal({ open: true, content: content }); }
   function closeModal() { setModal({ open: false, content: "" }); }
-
+ 
   var navLinks = [
     { label: "Os Blends", page: "blend-original" },
     { label: "Reserva Rico", page: "reserva" },
@@ -948,7 +951,7 @@ export default function CasaLevy() {
     { label: "A Cartilha", page: "cartilha" },
     { label: "A Casa", page: "casa" }
   ];
-
+ 
   return (
     <div className="cl-site" style={{ minHeight: "100vh" }}>
       <nav className="sticky-nav">
@@ -968,7 +971,7 @@ export default function CasaLevy() {
           </button>
         </div>
       </nav>
-
+ 
       {menuOpen && (
         <div className="mob-menu">
           <button onClick={function() { setMenuOpen(false); }} style={{ position: "absolute", top: 24, right: 24, background: "none", border: "none", cursor: "pointer", color: COLORS.creme, fontFamily: "'Cormorant Garamond', serif", fontSize: 28 }}>x</button>
@@ -977,7 +980,7 @@ export default function CasaLevy() {
           ); })}
         </div>
       )}
-
+ 
       {page === "home" && <Home nav={nav} openModal={openModal}/>}
       {page === "clube" && <PageClube nav={nav} openModal={openModal}/>}
       {(page === "blend-original" || page === "blend-equilibrio" || page === "blend-horizonte") && <PageBlend blendId={page} nav={nav} openModal={openModal}/>}
@@ -985,8 +988,9 @@ export default function CasaLevy() {
       {page === "casa" && <PageCasa nav={nav}/>}
       {page === "cartilha" && <PageCartilha nav={nav}/>}
       {page === "utensilios" && <PageUtensilios nav={nav} openModal={openModal}/>}
-
+ 
       {modal.open && <Modal content={modal.content} onClose={closeModal}/>}
     </div>
   );
 }
+ 
