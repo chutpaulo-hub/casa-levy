@@ -335,7 +335,7 @@ function FAQ() {
     { q: "Como o café fica fresco até chegar?", a: "Torramos toda semana, embalamos com válvula desgaseificadora, e enviamos em até 48h depois da torra." },
     { q: "Posso presentear?", a: "Pode. Temos opção de presente em todos os cafés e na Reserva Rico. Embrulho especial e cartão escrito à mão." },
     { q: "De onde vem o café?", a: "De fazendas brasileiras com relação direta com a Casa Levy. Cada café vem com a ficha do produtor." },
-    { q: "O que é a Reserva Rico?", a: "Microlotes especiais feitos com um blend de qualidade superior, em homenagem ao avô Menahem. Edição limitada, numerada à mão. Assinantes têm acesso antecipado a cada novo lote. Quem completa 6 meses recebe um lote escolhido pelo Renato, de presente da casa." }
+    { q: "O que é a Reserva Rico?", a: "Microlotes especiais feitos com um blend especial, em homenagem ao avô Menahem. Edição limitada, numerada à mão. Assinantes têm acesso antecipado a cada novo lote. Quem completa 6 meses recebe um lote escolhido pelo Renato, de presente da casa." }
   ];
   return (
     <div style={{ maxWidth: 700, margin: "0 auto" }}>
@@ -471,7 +471,7 @@ function ReservaRicoHome({ nav }) {
         <FadeIn>
           <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 13, letterSpacing: "0.3em", color: COLORS.latao, marginTop: 32, marginBottom: 24 }}>RESERVA RICO</div>
           <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "clamp(36px,5vw,62px)", color: COLORS.creme, marginBottom: 32 }}>Uma homenagem em cada lote</h2>
-          <p style={{ fontFamily: "'Lora', serif", fontSize: 17, lineHeight: 1.95, color: COLORS.creme, opacity: 0.8, marginBottom: 24 }}>Microlotes especiais feitos com um blend de qualidade superior, em homenagem ao avô Menahem. Edição limitada, numerada à mão.</p>
+          <p style={{ fontFamily: "'Lora', serif", fontSize: 17, lineHeight: 1.95, color: COLORS.creme, opacity: 0.8, marginBottom: 24 }}>Microlotes especiais feitos com um blend especial, em homenagem ao avô Menahem. Edição limitada, numerada à mão.</p>
           <div style={{ background: COLORS.latao + "15", border: "0.5px solid " + COLORS.latao + "50", padding: "20px 32px", marginBottom: 40, display: "inline-block" }}>
             <p style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: 18, color: COLORS.latao }}>Assinantes têm acesso antecipado e ganham um lote após 6 meses</p>
           </div>
@@ -746,7 +746,7 @@ function PageReserva({ nav, openModal }) {
         <RicoPortrait size={180}/>
         <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 13, letterSpacing: "0.35em", color: COLORS.latao, margin: "24px 0 16px" }}>RESERVA RICO</div>
         <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: "clamp(40px,6vw,72px)", color: COLORS.creme, marginBottom: 24 }}>Uma homenagem em cada lote</h1>
-        <p style={{ fontFamily: "'Lora', serif", fontSize: 17, lineHeight: 1.9, color: COLORS.creme, opacity: 0.75, maxWidth: 600, margin: "0 auto 24px" }}>Um blend de qualidade superior ao da linha tradicional, em microlotes numerados à mão. Disponível avulso por R$ 99. Assinantes têm acesso antecipado e após 6 meses recebem um lote de presente.</p>
+        <p style={{ fontFamily: "'Lora', serif", fontSize: 17, lineHeight: 1.9, color: COLORS.creme, opacity: 0.75, maxWidth: 600, margin: "0 auto 24px" }}>Um blend especial em microlotes numerados à mão. Disponível avulso por R$ 99. Assinantes têm acesso antecipado e após 6 meses recebem um lote de presente.</p>
         <div style={{ display: "inline-block", background: COLORS.latao + "15", border: "0.5px solid " + COLORS.latao + "50", padding: "14px 32px", marginBottom: 40 }}>
           <p style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: 17, color: COLORS.latao }}>Assinantes têm acesso antecipado e ganham um lote após 6 meses</p>
         </div>
