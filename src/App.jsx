@@ -345,41 +345,56 @@ const PRODUTOS = {
 };
 
 const RoruloSVG = ({ produto }) => {
-  var isReserva = produto.isReserva && !produto.isLatinha;
-  var titulo = isReserva ? "RESERVA RICO" : "CASA ORIGINAL";
-  var w = 220, h = 320;
   var vinho = "#6B1F1F";
   var creme = "#F5F0E8";
+  var w = 190, h = 280;
+
+  if (produto.isLatinha) {
+    return (
+      <svg width={w} height={h} viewBox={"0 0 " + w + " " + h} fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width={w} height={h} fill={creme}/>
+        {/* Lata — corpo */}
+        <rect x="45" y="40" width="100" height="180" rx="6" fill={vinho}/>
+        {/* Topo e base da lata */}
+        <ellipse cx="95" cy="40" rx="50" ry="10" fill="#5A1010"/>
+        <ellipse cx="95" cy="220" rx="50" ry="10" fill="#5A1010"/>
+        {/* Faixa creme com rótulo */}
+        <rect x="45" y="80" width="100" height="100" fill={creme}/>
+        {/* Texto no rótulo */}
+        <text x="95" y="112" textAnchor="middle" fontFamily="Cormorant Garamond, serif" fontSize="14" fontWeight="500" fill={vinho}>Casa Levy</text>
+        <text x="95" y="128" textAnchor="middle" fontFamily="Cormorant Garamond, serif" fontSize="8" fontWeight="700" letterSpacing="1.5" fill={vinho}>RESERVA RICO</text>
+        {/* Monograma pequeno */}
+        <circle cx="95" cy="152" r="14" fill={vinho}/>
+        <text x="95" y="158" textAnchor="middle" fontFamily="Cormorant Garamond, serif" fontSize="12" fill={creme}>L</text>
+        {/* Detalhe dourado topo/base lata */}
+        <rect x="45" y="54" width="100" height="3" fill="#C9A961" opacity="0.7"/>
+        <rect x="45" y="213" width="100" height="3" fill="#C9A961" opacity="0.7"/>
+        {/* Gramagem */}
+        <text x="95" y="248" textAnchor="middle" fontFamily="Cormorant Garamond, serif" fontSize="10" fontWeight="700" fill={vinho}>150g · Lata de metal</text>
+        {/* Label edição presente */}
+        <text x="95" y="265" textAnchor="middle" fontFamily="Cormorant Garamond, serif" fontSize="9" fontStyle="italic" fill={vinho}>Edição Presente</text>
+      </svg>
+    );
+  }
+
+  var titulo = produto.isReserva ? "RESERVA RICO" : "CASA ORIGINAL";
   return (
     <svg width={w} height={h} viewBox={"0 0 " + w + " " + h} fill="none" xmlns="http://www.w3.org/2000/svg">
-      {/* Fundo creme */}
       <rect width={w} height={h} fill={creme}/>
-      {/* Borda topo e base */}
-      <rect x="0" y="0" width={w} height="10" fill={vinho}/>
-      <rect x="0" y={h-10} width={w} height="10" fill={vinho}/>
-      {/* Linhas decorativas internas */}
-      <rect x="0" y="14" width={w} height="1.5" fill={vinho} opacity="0.3"/>
-      <rect x="0" y={h-15} width={w} height="1.5" fill={vinho} opacity="0.3"/>
-      {/* Casa Levy */}
-      <text x={w/2} y="72" textAnchor="middle" fontFamily="Cormorant Garamond, serif" fontSize="46" fontWeight="500" fill={vinho}>Casa Levy</text>
-      {/* Nome do produto */}
-      <text x={w/2} y="106" textAnchor="middle" fontFamily="Cormorant Garamond, serif" fontSize="16" fontWeight="700" letterSpacing="3" fill={vinho}>{titulo}</text>
-      {/* Linhas laterais do monograma */}
-      <line x1="18" y1="148" x2="72" y2="148" stroke={vinho} strokeWidth="1.2"/>
-      <line x1={w-72} y1="148" x2={w-18} y2="148" stroke={vinho} strokeWidth="1.2"/>
-      {/* Monograma círculo */}
-      <circle cx={w/2} cy="148" r="30" fill={vinho}/>
-      <text x={w/2} y="158" textAnchor="middle" fontFamily="Cormorant Garamond, serif" fontSize="28" fill={creme}>L</text>
-      <text x={w/2} y="171" textAnchor="middle" fontFamily="Cormorant Garamond, serif" fontSize="8" fill={creme} letterSpacing="3">...</text>
-      {/* Linha decorativa CAFÉ ESPECIAL */}
-      <line x1="18" y1="195" x2="52" y2="195" stroke={vinho} strokeWidth="1"/>
-      <text x={w/2} y="199" textAnchor="middle" fontFamily="Cormorant Garamond, serif" fontSize="9" fontWeight="700" letterSpacing="2" fill={vinho}>CAFÉ ESPECIAL 100% ARÁBICA</text>
-      <line x1={w-52} y1="195" x2={w-18} y2="195" stroke={vinho} strokeWidth="1"/>
-      {/* Tagline */}
-      <text x={w/2} y="270" textAnchor="middle" fontFamily="Cormorant Garamond, serif" fontSize="13" fontStyle="italic" fill={vinho}>Para dias que começam do</text>
-      <text x={w/2} y="287" textAnchor="middle" fontFamily="Cormorant Garamond, serif" fontSize="13" fontStyle="italic" fill={vinho}>jeito certo</text>
-      {/* Gramagem */}
-      <text x={w/2} y="303" textAnchor="middle" fontFamily="Cormorant Garamond, serif" fontSize="12" fontWeight="700" fill={vinho}>{produto.gram}</text>
+      <rect width={w} height="9" fill={vinho}/>
+      <rect y={h-9} width={w} height="9" fill={vinho}/>
+      <text x={w/2} y="55" textAnchor="middle" fontFamily="Cormorant Garamond, serif" fontSize="40" fontWeight="500" fill={vinho}>Casa Levy</text>
+      <text x={w/2} y="82" textAnchor="middle" fontFamily="Cormorant Garamond, serif" fontSize="14" fontWeight="700" letterSpacing="2.5" fill={vinho}>{titulo}</text>
+      <line x1="14" y1="118" x2="60" y2="118" stroke={vinho} strokeWidth="1"/>
+      <line x1="130" y1="118" x2="176" y2="118" stroke={vinho} strokeWidth="1"/>
+      <circle cx={w/2} cy="118" r="28" fill={vinho}/>
+      <text x={w/2} y="127" textAnchor="middle" fontFamily="Cormorant Garamond, serif" fontSize="24" fill={creme}>L</text>
+      <text x={w/2} y="138" textAnchor="middle" fontFamily="Cormorant Garamond, serif" fontSize="7" fill={creme} letterSpacing="2.5">. . .</text>
+      <line x1="14" y1="164" x2="42" y2="164" stroke={vinho} strokeWidth="0.8"/>
+      <text x={w/2} y="168" textAnchor="middle" fontFamily="Cormorant Garamond, serif" fontSize="8.5" fontWeight="700" letterSpacing="1.5" fill={vinho}>CAFÉ ESPECIAL 100% ARÁBICA</text>
+      <line x1="148" y1="164" x2="176" y2="164" stroke={vinho} strokeWidth="0.8"/>
+      <text x={w/2} y="228" textAnchor="middle" fontFamily="Cormorant Garamond, serif" fontSize="12" fontStyle="italic" fill={vinho}>Para dias que começam do jeito certo</text>
+      <text x={w/2} y="253" textAnchor="middle" fontFamily="Cormorant Garamond, serif" fontSize="11" fontWeight="700" fill={vinho}>250g</text>
     </svg>
   );
 };
@@ -392,7 +407,7 @@ function ProductImage({ produto }) {
         src={produto.foto}
         alt={produto.nome}
         onError={function() { setErrored(true); }}
-        style={{ width: "100%", maxWidth: produto.isLatinha ? 200 : 240, height: produto.isLatinha ? 280 : 320, objectFit: produto.isLatinha ? "contain" : "cover", borderRadius: 4 }}
+        style={{ width: "100%", height: "100%", objectFit: "contain", maxHeight: 340 }}
       />
     );
   }
@@ -407,15 +422,15 @@ function ProductCard({ produtoId }) {
   var produto = PRODUTOS[produtoId];
   var torraInfo = TORRAS[torra];
   var a = produto.isReserva ? COLORS.latao : COLORS.dourado;
-  var bgImagem = produto.isLatinha ? "#1A0E0A" : COLORS.cremeBg;
+  var bgImagem = COLORS.cremeBg;
   function handleAdd() {
     cart.addItem(produto, torra, moagem);
     setAdded(true);
     setTimeout(function() { setAdded(false); }, 1800);
   }
   return (
-    <div className="shop-card">
-      <div style={{ background: bgImagem, padding: "40px 24px", display: "flex", justifyContent: "center" }}>
+    <div className="shop-card" style={{ display: "flex", flexDirection: "column" }}>
+      <div style={{ background: COLORS.cremeBg, height: 340, display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
         <ProductImage produto={produto}/>
       </div>
       <div style={{ padding: "28px 28px 32px" }}>
