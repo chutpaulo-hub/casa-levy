@@ -12,7 +12,8 @@ const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 // Mapeamento dos produtos para os Price IDs criados no Stripe Dashboard.
 const PRICE_IDS = {
   original: "price_1TmHeuIxbvKXswaCvG1GJLnI",
-  reserva: "price_1TmHfNIxbvKXswaCkgJj3P9Z"
+  reserva: "price_1TmHfNIxbvKXswaCkgJj3P9Z",
+  latinha: "price_1TprDzIxbvKXswaCkdlr8YEX"
 };
 
 const TORRA_LABELS = {
@@ -80,7 +81,7 @@ module.exports = async function handler(req, res) {
     // já que o Stripe não permite metadata por line_item em Checkout Session
     // (apenas na sessão como um todo, ou via Payment Intent depois).
     var resumoPedido = items.map(function(item) {
-      var nome = item.produtoId === "original" ? "Casa Original" : "Reserva Rico";
+      var nome = item.produtoId === "original" ? "Casa Original" : item.produtoId === "reserva" ? "Reserva Rico" : "Reserva Rico Latinha";
       var torra = TORRA_LABELS[item.torra] || item.torra;
       var moagem = MOAGEM_LABELS[item.moagem] || item.moagem;
       return item.qty + "x " + nome + " (" + torra + ", " + moagem + ")";
