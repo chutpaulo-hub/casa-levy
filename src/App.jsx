@@ -100,7 +100,9 @@ h1,h2,h3,h4 { font-family: 'Cormorant Garamond', serif; }
 @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
 .cart-item { display: flex; gap: 14px; padding: 18px 0; border-bottom: 0.5px solid rgba(139,94,60,0.2); }
 .qty-btn { width: 26px; height: 26px; border: 0.5px solid rgba(139,94,60,0.35); background: white; cursor: pointer; font-family: 'Lora', serif; font-size: 14px; color: ${COLORS.torra}; display: flex; align-items: center; justify-content: center; }
-.cart-empty-icon { opacity: 0.3; }
+.whatsapp-btn { position: fixed; bottom: 28px; right: 28px; z-index: 400; width: 56px; height: 56px; border-radius: 50%; background: #25D366; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(0,0,0,0.25); transition: transform 0.2s, box-shadow 0.2s; }
+.whatsapp-btn:hover { transform: scale(1.08); box-shadow: 0 6px 24px rgba(0,0,0,0.3); }
+@media(max-width:768px){ .whatsapp-btn { bottom: 20px; right: 20px; width: 50px; height: 50px; } }
 .hero-glow { position: absolute; inset: -10%; background: radial-gradient(circle at 50% 40%, rgba(212,165,116,0.22), transparent 60%); animation: heroGlow 8s ease-in-out infinite; }
 @keyframes heroGlow { 0%,100% { opacity: 0.6; transform: scale(1); } 50% { opacity: 1; transform: scale(1.08); } }
 .steam-wrap { position: absolute; bottom: 0; left: 0; width: 100%; height: 100%; overflow: hidden; }
@@ -317,7 +319,7 @@ function CartDrawer() {
   );
 }
 
-// Dados dos 2 produtos
+// Dados dos 3 produtos
 const TORRAS = {
   escura: { id: "escura", label: "TORRA ESCURA", curta: "Escura", notas: "chocolate amargo . caramelo escuro . corpo cheio", uso: "Espresso e cafeteira italiana" },
   media: { id: "media", label: "TORRA MÉDIA", curta: "Média", notas: "caramelo . frutas vermelhas suaves . doçura presente", uso: "Versátil para qualquer método" },
@@ -327,31 +329,74 @@ const TORRAS = {
 const PRODUTOS = {
   original: {
     id: "original", nome: "Casa Original", gram: "250g", preco: 49.90,
-    frase: "O café do dia a dia da casa. Três torras, uma só origem.",
-    descricaoLonga: "O Casa Original é o café que está sempre na mesa. Feito com grãos brasileiros selecionados, vem em três torras para você escolher como prefere tomar — do espresso encorpado ao coado mais floral.",
-    isReserva: false, foto: "/produtos/casa-original.jpg"
+    frase: "Para dias que começam do jeito certo.",
+    isReserva: false, isLatinha: false, foto: "/produtos/casa-original.jpg"
   },
   reserva: {
-    id: "reserva", nome: "Reserva Rico", gram: "150g", preco: 69.90,
-    frase: "Uma homenagem ao avô Menahem. Blend especial, edição limitada.",
-    descricaoLonga: "A Reserva Rico nasce de um blend especial, diferente do café do dia a dia — em homenagem a Menahem \"Rico\" Levy, pioneiro do espresso italiano no Brasil. Microlotes numerados à mão, também disponíveis nas três torras.",
-    isReserva: true, foto: "/produtos/reserva-rico.jpg"
+    id: "reserva", nome: "Reserva Rico", gram: "250g", preco: 69.90,
+    frase: "Para dias que começam do jeito certo.",
+    isReserva: true, isLatinha: false, foto: "/produtos/reserva-rico-250.jpg"
+  },
+  latinha: {
+    id: "latinha", nome: "Reserva Rico Latinha", gram: "150g", preco: 50.00,
+    frase: "Uma homenagem em forma de presente.",
+    isReserva: true, isLatinha: true, foto: "/produtos/reserva-rico.jpg"
   }
 };
 
-function ProductImage({ produto, torraInfo, gram }) {
-  const [errored, setErrored] = useState(false);
-  if (errored || !produto.foto) {
-    return <SacoProduto produto={produto} torraInfo={torraInfo} gram={gram}/>;
-  }
+const RoruloSVG = ({ produto }) => {
+  var isReserva = produto.isReserva && !produto.isLatinha;
+  var titulo = isReserva ? "RESERVA RICO" : "CASA ORIGINAL";
+  var w = 220, h = 320;
+  var vinho = "#6B1F1F";
+  var creme = "#F5F0E8";
   return (
-    <img
-      src={produto.foto}
-      alt={produto.nome}
-      onError={function() { setErrored(true); }}
-      style={{ width: "100%", maxWidth: 260, height: 300, objectFit: "cover", borderRadius: 6 }}
-    />
+    <svg width={w} height={h} viewBox={"0 0 " + w + " " + h} fill="none" xmlns="http://www.w3.org/2000/svg">
+      {/* Fundo creme */}
+      <rect width={w} height={h} fill={creme}/>
+      {/* Borda topo e base */}
+      <rect x="0" y="0" width={w} height="10" fill={vinho}/>
+      <rect x="0" y={h-10} width={w} height="10" fill={vinho}/>
+      {/* Linhas decorativas internas */}
+      <rect x="0" y="14" width={w} height="1.5" fill={vinho} opacity="0.3"/>
+      <rect x="0" y={h-15} width={w} height="1.5" fill={vinho} opacity="0.3"/>
+      {/* Casa Levy */}
+      <text x={w/2} y="72" textAnchor="middle" fontFamily="Cormorant Garamond, serif" fontSize="46" fontWeight="500" fill={vinho}>Casa Levy</text>
+      {/* Nome do produto */}
+      <text x={w/2} y="106" textAnchor="middle" fontFamily="Cormorant Garamond, serif" fontSize="16" fontWeight="700" letterSpacing="3" fill={vinho}>{titulo}</text>
+      {/* Linhas laterais do monograma */}
+      <line x1="18" y1="148" x2="72" y2="148" stroke={vinho} strokeWidth="1.2"/>
+      <line x1={w-72} y1="148" x2={w-18} y2="148" stroke={vinho} strokeWidth="1.2"/>
+      {/* Monograma círculo */}
+      <circle cx={w/2} cy="148" r="30" fill={vinho}/>
+      <text x={w/2} y="158" textAnchor="middle" fontFamily="Cormorant Garamond, serif" fontSize="28" fill={creme}>L</text>
+      <text x={w/2} y="171" textAnchor="middle" fontFamily="Cormorant Garamond, serif" fontSize="8" fill={creme} letterSpacing="3">...</text>
+      {/* Linha decorativa CAFÉ ESPECIAL */}
+      <line x1="18" y1="195" x2="52" y2="195" stroke={vinho} strokeWidth="1"/>
+      <text x={w/2} y="199" textAnchor="middle" fontFamily="Cormorant Garamond, serif" fontSize="9" fontWeight="700" letterSpacing="2" fill={vinho}>CAFÉ ESPECIAL 100% ARÁBICA</text>
+      <line x1={w-52} y1="195" x2={w-18} y2="195" stroke={vinho} strokeWidth="1"/>
+      {/* Tagline */}
+      <text x={w/2} y="270" textAnchor="middle" fontFamily="Cormorant Garamond, serif" fontSize="13" fontStyle="italic" fill={vinho}>Para dias que começam do</text>
+      <text x={w/2} y="287" textAnchor="middle" fontFamily="Cormorant Garamond, serif" fontSize="13" fontStyle="italic" fill={vinho}>jeito certo</text>
+      {/* Gramagem */}
+      <text x={w/2} y="303" textAnchor="middle" fontFamily="Cormorant Garamond, serif" fontSize="12" fontWeight="700" fill={vinho}>{produto.gram}</text>
+    </svg>
   );
+};
+
+function ProductImage({ produto }) {
+  const [errored, setErrored] = useState(false);
+  if (produto.foto && !errored) {
+    return (
+      <img
+        src={produto.foto}
+        alt={produto.nome}
+        onError={function() { setErrored(true); }}
+        style={{ width: "100%", maxWidth: produto.isLatinha ? 200 : 240, height: produto.isLatinha ? 280 : 320, objectFit: produto.isLatinha ? "contain" : "cover", borderRadius: 4 }}
+      />
+    );
+  }
+  return <RoruloSVG produto={produto}/>;
 }
 
 function ProductCard({ produtoId }) {
@@ -362,6 +407,7 @@ function ProductCard({ produtoId }) {
   var produto = PRODUTOS[produtoId];
   var torraInfo = TORRAS[torra];
   var a = produto.isReserva ? COLORS.latao : COLORS.dourado;
+  var bgImagem = produto.isLatinha ? "#1A0E0A" : COLORS.cremeBg;
   function handleAdd() {
     cart.addItem(produto, torra, moagem);
     setAdded(true);
@@ -369,8 +415,8 @@ function ProductCard({ produtoId }) {
   }
   return (
     <div className="shop-card">
-      <div style={{ background: produto.isReserva ? "#1A0E0A" : COLORS.cremeBg, padding: "40px 24px", display: "flex", justifyContent: "center" }}>
-        <ProductImage produto={produto} torraInfo={torraInfo} gram={produto.gram}/>
+      <div style={{ background: bgImagem, padding: "40px 24px", display: "flex", justifyContent: "center" }}>
+        <ProductImage produto={produto}/>
       </div>
       <div style={{ padding: "28px 28px 32px" }}>
         <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 28, color: COLORS.torra, marginBottom: 6 }}>{produto.nome}</h3>
@@ -461,15 +507,16 @@ function Hero() {
 function Loja() {
   return (
     <section id="loja" className="sec-light pad-sec">
-      <div style={{ maxWidth: 1000, margin: "0 auto" }}>
+      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
         <FadeIn style={{ textAlign: "center", marginBottom: 56 }}>
           <span className="descriptor" style={{ color: COLORS.caramelo }}>A LOJA</span>
-          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(32px,5vw,54px)", color: COLORS.torra }}>Dois cafés. Uma casa.</h2>
+          <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(32px,5vw,54px)", color: COLORS.torra }}>Três cafés. Uma casa.</h2>
           <p style={{ fontFamily: "'Lora', serif", fontSize: 15, color: COLORS.torra, opacity: 0.6, marginTop: 14, maxWidth: 480, marginLeft: "auto", marginRight: "auto" }}>Escolha a torra e a moagem. O resto a casa cuida.</p>
         </FadeIn>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 32 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 28 }}>
           <FadeIn><ProductCard produtoId="original"/></FadeIn>
           <FadeIn><ProductCard produtoId="reserva"/></FadeIn>
+          <FadeIn><ProductCard produtoId="latinha"/></FadeIn>
         </div>
       </div>
     </section>
@@ -659,14 +706,37 @@ function PageCasa({ nav }) {
 }
 
 function PageCartilha({ nav }) {
+  const [artigoAberto, setArtigoAberto] = useState(null);
   var artigos = [
-    { titulo: "A diferença entre torras", desc: "Por que o mesmo grão é outro café conforme a torra" },
-    { titulo: "Espresso ou coado: qual é o seu?", desc: "Um guia honesto para descobrir seu método" },
-    { titulo: "Como o Renato faz o coado de manhã", desc: "A receita da casa" },
-    { titulo: "Era do Rico essa mania de cardamomo no café", desc: "A herança egípcia que você pode tentar" },
-    { titulo: "Moído ou em grão?", desc: "Como escolher e por que faz diferença" },
-    { titulo: "Como chega o café até você", desc: "Da torra à sua porta, em até 48h" }
+    { titulo: "O que é café especial?", desc: "A diferença entre o que você toma e o que você poderia tomar", tempo: "4 min", conteudo: "Café especial é uma classificação técnica, não um rótulo de marketing. Para receber essa denominação, um café precisa atingir no mínimo 80 pontos em uma escala de 100 definida pela Specialty Coffee Association (SCA). A avaliação é feita por profissionais certificados chamados Q-graders, que analisam atributos como aroma, acidez, corpo, doçura, equilíbrio e ausência de defeitos.\n\nO que diferencia um café especial do café comum começa antes da torra, na fazenda. Grãos especiais são colhidos seletivamente, no ponto exato de maturação.\n\nNa Casa Levy, todos os cafés são compostos exclusivamente por grãos com pontuação acima de 80 pontos. A Reserva Rico vai além, com microlotes que alcançam pontuações acima de 85." },
+    { titulo: "A diferença entre torras", desc: "Por que o mesmo grão é outro café conforme a torra", tempo: "5 min", conteudo: "A torra é uma das etapas mais decisivas na cadeia do café. É ela que transforma os compostos químicos do grão verde em aroma, sabor e corpo.\n\nTorra clara preserva mais acidez, florais e frutas. É a preferida para métodos de coado manual.\n\nTorra média equilibra acidez e doçura. Funciona bem em espresso e em coado.\n\nTorra escura leva o grão além do segundo crack. A acidez cede espaço ao amargor controlado, ao corpo denso e ao caramelo. É a torra clássica do espresso italiano.\n\nNão existe torra melhor ou pior. Existe torra adequada ao método e ao paladar de cada pessoa." },
+    { titulo: "Espresso ou coado: qual é o seu?", desc: "Um guia honesto para descobrir seu método", tempo: "6 min", conteudo: "A escolha entre espresso e coado não é questão de gosto apenas. Envolve estilo de vida, equipamento disponível e o que você espera da bebida.\n\nO espresso é uma extração sob pressão, entre 8 e 10 bar, em 25 a 30 segundos. O resultado é concentrado, com crema, corpo denso e intensidade elevada.\n\nPara fazer espresso em casa com qualidade, você precisa de uma máquina com bomba de pressão adequada e de um moedor capaz de ajuste fino.\n\nO coado é uma extração por percolação. A água passa pelo café por gravidade, sem pressão. O resultado é uma bebida mais clara, com acidez mais evidente e complexidade aromática.\n\nSe você aprecia a intensidade, o espresso é seu método. Se você gosta de explorar nuances e tem paciência para o processo, o coado vai surpreender." },
+    { titulo: "Moído ou em grão?", desc: "Como escolher e por que faz diferença", tempo: "3 min", conteudo: "A escolha entre café moído e em grão é, basicamente, uma escolha entre conveniência e frescor.\n\nO café perde aroma e sabor rapidamente depois de moído — o processo de oxidação começa em minutos. Café em grão, guardado bem, mantém suas qualidades por semanas.\n\nSe você tem um moedor em casa, mesmo um manual simples, vale a pena comprar em grão e moer na hora de preparar.\n\nSe você não tem moedor, sem problema: moemos pra você no ponto certo, considerando o método que você mais usa. É melhor um café moído fresco e bem ajustado do que um café em grão que vai ficar parado sem ser usado." },
+    { titulo: "Como o Renato faz o coado de manhã", desc: "A receita da casa, com notas de cada etapa", tempo: "4 min", conteudo: "Renato torra café toda semana e bebe café todo dia. A receita que ele usa de manhã não é sofisticada. É consistente.\n\nEquipamento: coador de cerâmica V60, filtro de papel branqueado, chaleira de bico fino, balança e termômetro.\n\nCafé: Casa Original, moído na hora em moagem média. 15 gramas para 225 ml de água.\n\nTemperatura da água: 93°C. Renato ferve a água e aguarda 45 segundos antes de usar.\n\nBloom: 30 ml de água, aguarda 35 segundos. O café fresco libera CO2 nesse momento.\n\nExtração principal: despeja o restante em movimentos circulares lentos.\n\nTempo total: 3 minutos e 20 segundos. Renato bebe sem açúcar." },
+    { titulo: "Era do Rico essa mania de cardamomo no café", desc: "A herança egípcia que você pode tentar", tempo: "5 min", conteudo: "Na Alexandria dos anos 1940, o café não era bebido sozinho. Era servido com cardamomo, às vezes com água de rosas, sempre em xícaras pequenas. Era o café árabe, o qahwa.\n\nMenahem Levy cresceu nesse ritual. Quando chegou ao Brasil, trouxe o hábito. O cardamomo aparecia na sua xícara em dias específicos, pela memória do que tinha sido normal para ele.\n\nO cardamomo pertence à família do gengibre. No café, ele adiciona notas cítricas e levemente mentoladas, que contrabalançam a amargura e ampliam a percepção de doçura.\n\nA técnica mais comum é adicionar uma ou duas sementes levemente amassadas ao pó antes da extração.\n\nNão é uma preparação para todo dia. Mas é uma preparação que conta uma história." },
+    { titulo: "Como chega o café até você", desc: "Da torra à sua porta, em até 48h", tempo: "3 min", conteudo: "Café fresco é a diferença entre uma xícara comum e uma xícara memorável. Por isso, a Casa Levy torra em pequenos lotes, toda semana — nunca temos estoque parado por meses.\n\nQuando você faz o pedido, escolhe a torra e a moagem. O café é torrado (ou separado, se já tiver lote fresco da torra escolhida) e embalado com válvula desgaseificadora, que deixa o CO2 sair sem deixar o oxigênio entrar.\n\nO envio acontece em até 48 horas depois da torra. Isso significa que, quando o café chega na sua casa, ele ainda está no auge do frescor.\n\nFrete para todo o Brasil, calculado no checkout conforme o seu CEP." }
   ];
+
+  if (artigoAberto) {
+    return (
+      <div className="cl-site sec-light" style={{ paddingTop: 80 }}>
+        <div style={{ maxWidth: 720, margin: "0 auto", padding: "60px 24px" }}>
+          <button onClick={function() { setArtigoAberto(null); }} style={{ fontFamily: "'Lora', serif", fontSize: 13, color: COLORS.caramelo, background: "none", border: "none", cursor: "pointer", marginBottom: 40, opacity: 0.7 }}>← Voltar para a Cartilha</button>
+          <div style={{ fontFamily: "'Lora', serif", fontSize: 11, letterSpacing: "0.15em", color: COLORS.dourado, marginBottom: 24 }}>{artigoAberto.tempo} DE LEITURA</div>
+          <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(32px,5vw,52px)", color: COLORS.torra, marginBottom: 16, lineHeight: 1.2 }}>{artigoAberto.titulo}</h1>
+          <p style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: 18, color: COLORS.caramelo, marginBottom: 48, lineHeight: 1.6 }}>{artigoAberto.desc}</p>
+          <div style={{ height: "0.5px", background: COLORS.dourado, opacity: 0.3, marginBottom: 48 }}/>
+          {artigoAberto.conteudo.split("\n\n").map(function(p, i) { return (
+            <p key={i} style={{ fontFamily: "'Lora', serif", fontSize: 16, lineHeight: 1.95, color: COLORS.torra, opacity: 0.8, marginBottom: 28 }}>{p}</p>
+          ); })}
+          <div style={{ height: "0.5px", background: COLORS.dourado, opacity: 0.3, margin: "48px 0 32px" }}/>
+          <button onClick={function() { setArtigoAberto(null); }} style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontSize: 16, color: COLORS.caramelo, background: "none", border: "none", cursor: "pointer", borderBottom: "0.5px solid " + COLORS.caramelo }}>Voltar para a Cartilha</button>
+        </div>
+        <Footer nav={nav}/>
+      </div>
+    );
+  }
+
   return (
     <div className="cl-site sec-light" style={{ paddingTop: 80 }}>
       <div style={{ maxWidth: 1060, margin: "0 auto", padding: "64px 24px" }}>
@@ -678,8 +748,10 @@ function PageCartilha({ nav }) {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px,1fr))", gap: 28 }}>
           {artigos.map(function(a, i) { return (
             <div key={i} style={{ border: "0.5px solid rgba(139,94,60,0.2)", padding: "32px 26px", background: "white" }}>
+              <div style={{ fontFamily: "'Lora', serif", fontSize: 11, letterSpacing: "0.15em", color: COLORS.dourado, marginBottom: 14 }}>{a.tempo} DE LEITURA</div>
               <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 22, color: COLORS.torra, marginBottom: 10 }}>{a.titulo}</h3>
-              <p style={{ fontFamily: "'Lora', serif", fontSize: 13, color: COLORS.caramelo, lineHeight: 1.7 }}>{a.desc}</p>
+              <p style={{ fontFamily: "'Lora', serif", fontSize: 13, color: COLORS.caramelo, lineHeight: 1.7, marginBottom: 20 }}>{a.desc}</p>
+              <button className="btn-text" style={{ color: COLORS.caramelo, borderBottomColor: COLORS.caramelo, fontSize: 13 }} onClick={function() { setArtigoAberto(a); }}>Ler</button>
             </div>
           ); })}
         </div>
@@ -792,6 +864,17 @@ function AppShell() {
 
       <CartDrawer/>
       {modalOpen && <Modal onClose={closeModal}/>}
+      <a
+        href="https://wa.me/5521990910552?text=Olá!%20Gostaria%20de%20fazer%20um%20pedido%20na%20Casa%20Levy."
+        target="_blank"
+        rel="noopener noreferrer"
+        className="whatsapp-btn"
+        aria-label="Fale conosco pelo WhatsApp"
+      >
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="white">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+      </a>
     </div>
   );
 }
@@ -803,4 +886,3 @@ export default function CasaLevy() {
     </CartProvider>
   );
 }
-
